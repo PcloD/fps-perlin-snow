@@ -28,11 +28,11 @@ class FpsSnow {
         canvasFullWindow(true);
 
         // Setup camera transformation
-        this.cameramatrix = mat4.create();
-        mat4.rotate(this.cameramatrix, this.cameramatrix, Math.PI/180. * 5, [0., 1., 0.]);
-        mat4.translate(this.cameramatrix, this.cameramatrix, [0., 0., -4.]);
+        this.camera = new Camera();
 
         this.checkerboard = new Checkerboard();
+
+        this._centerCameraOnCheckerboard();
 
         // GL States
         gl.enable(gl.DEPTH_TEST);
@@ -46,8 +46,10 @@ class FpsSnow {
 
         // Camera transformation
         mat4.identity(gl.mvMatrix);
-        mat4.multiply(gl.mvMatrix, gl.mvMatrix, this.cameramatrix);
+        mat4.multiply(gl.mvMatrix, gl.mvMatrix, this.camera.matrix);
 
+
+        mat4.rotate(gl.mvMatrix, gl.mvMatrix, Math.PI / 2., [1., 0., 0.]);
         // Place and draw object
         this.checkerboard.show();
 
@@ -77,24 +79,21 @@ class FpsSnow {
         // Fly
         var speed = 1.;
 
+        // Perspective translation
         if (this.mouse.isDown) {
-            var new_trans = mat4.create();
-            mat4.translate(new_trans, new_trans, [0., 0., speed*elapsedtime]);
-
-            mat4.multiply(this.cameramatrix, new_trans, this.cameramatrix);
-            postRedisplay();
+            this.camera.translate([0., 0., speed*elapsedtime]);
         }
 
-        var turnfactor = 0.00005;
-        var turn = mat4.create();
+        // Perspective rotation
+        const angle = Math.sqrt(this.mouse.pos[0] * this.mouse.pos[0] + this.mouse.pos[1] * this.mouse.pos[1]);
+        const axis = [-this.mouse.pos[1], this.mouse.pos[0], 0.];
+        this.camera.rotate(angle, axis);
 
-        mat4.rotate(turn, turn,
-            turnfactor * Math.sqrt(this.mouse.pos[0] * this.mouse.pos[0] + this.mouse.pos[1] * this.mouse.pos[1]),
-            [-this.mouse.pos[1], this.mouse.pos[0], 0.]
-        );
-
-        mat4.multiply(this.cameramatrix, turn, this.cameramatrix);
         postRedisplay();
+    }
+
+    _centerCameraOnCheckerboard() {
+
     }
 }
 

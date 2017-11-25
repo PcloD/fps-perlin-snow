@@ -12,7 +12,6 @@ class Checkerboard {
 
     show() {
         pushMvMatrix(gl);
-        mat4.rotate(gl.mvMatrix, gl.mvMatrix, -Math.PI / 90., [1., 0., 0.]);
 
         let gap = this.tileSize;
 
@@ -32,8 +31,6 @@ class Checkerboard {
             // Move to next column
             mat4.translate(gl.mvMatrix, gl.mvMatrix,
                 [0., gap , 0.]);
-
-
         }
 
         popMvMatrix(gl);
