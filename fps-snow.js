@@ -76,24 +76,35 @@ class FpsSnow {
     idle() {
         var elapsedtime = getElapsedTime(0.1);
 
+        // Perspective rotation
+        if (elapsedtime == 0.) {
+            return;
+        }
+
         // Fly
-        var speed = 1.;
+        var speed = 3.;
 
         // Perspective translation
         if (this.mouse.isDown) {
             this.camera.translate([0., 0., speed*elapsedtime]);
         }
 
-        // Perspective rotation
-        const angle = Math.sqrt(this.mouse.pos[0] * this.mouse.pos[0] + this.mouse.pos[1] * this.mouse.pos[1]);
-        const axis = [-this.mouse.pos[1], this.mouse.pos[0], 0.];
+
+        const vel = this.mouse.getVel(elapsedtime);
+        // const angle = Math.sqrt(vel[0] * vel[0] + vel[1] * vel[1]);
+        const angle = vel[0];
+        const axis = [0., 1., 0.];
+
         this.camera.rotate(angle, axis);
+
+        this.mouse.savePrev();
 
         postRedisplay();
     }
 
     _centerCameraOnCheckerboard() {
-
+        const center = [-this.checkerboard.height() / 2., -2. ,-this.checkerboard.width() / 2. ];
+        this.camera.translate(center);
     }
 }
 

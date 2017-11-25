@@ -62,7 +62,11 @@ void main() {
 
     // Light-source color & position/direction
     vec4 lightcolor = vec4(1., 1., 1., 1.);  // White
-    vec4 lightpos4 =  vec4(.0, 0., -2.5, 1.);
+    vec4 lightpos4 =  vec4(.0, 0., 0., 1.);
+
+    if (!gl_FrontFacing) {
+        surfnorm = -surfnorm;
+    }
 
     // Apply Blinn-Phong Illumination Model
     vec4 litcolor = bpLight(

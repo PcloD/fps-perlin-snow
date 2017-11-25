@@ -6,8 +6,8 @@ class Checkerboard {
 
         this.colors = [BLACK, WHITE];
 
-        this.numTiles = 60;
-        this.tileSize = 0.5;
+        this.numTiles = 30;
+        this.tileSize = 1.;
     }
 
     show() {
@@ -34,6 +34,18 @@ class Checkerboard {
         }
 
         popMvMatrix(gl);
+    }
+
+    size() {
+        return this.numTiles * this.tileSize;
+    }
+
+    height() {
+        return this.size();
+    }
+
+    width() {
+        return this.size();
     }
 }
 

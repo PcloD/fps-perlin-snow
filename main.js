@@ -13,11 +13,11 @@ $(document).ready(() => {
     let fragShader;
     let vertexShader;
 
-    let vertGet = $.get('vertex.glsl', (vertex) => {
+    let vertGet = $.get('shaders/vertex.glsl', (vertex) => {
         vertexShader = vertex;
     });
 
-    let fragGet = $.get('frag.glsl', (frag) => {
+    let fragGet = $.get('shaders/frag.glsl', (frag) => {
         fragShader = frag;
     });
 
