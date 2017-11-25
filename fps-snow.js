@@ -1,32 +1,29 @@
 class FpsSnow {
-    constructor(canvasid, vertex, frag) {
-        // Canvas
-        savedcanvasid = canvasid;
-
+    constructor(canvasId, vertex, frag) {
         // Initialize quoll.js & WebGL
-        gl = quollInit(canvasid);
+        gl = quollInit(canvasId);
         if (!gl) return;  // Could not intialize; exit
 
         // Shaders
         shaderprog1 = makeProgramObject(gl, vertex, frag);
 
+        // Mouse event handlers
+        this.mouse = new Mouse(canvasId);
+        $(document).on('mousedown', this.mouse.onDown.bind(this.mouse));
+        $(document).on('mouseup', this.mouse.onUp.bind(this.mouse));
+        $(document).on('mousemove', this.mouse.onMove.bind(this.mouse));
+
+        // Keyboard event handlers
+        this.keyboard = new Keyboard();
+        $(document).on('keypress', this.keyboard.handler.bind(this.keyboard));
+
         // Register callbacks with quoll.js
-        registerDisplay(this.display);
-        registerReshape(this.reshape);
-        registerIdle(this.idle);
+        registerDisplay(this.display.bind(this));
+        registerReshape(this.reshape.bind(this));
+        registerIdle(this.idle.bind(this));
 
-        canvasFullWindow(true);  // Make canvas fill the window
-
-        // Set up other event handlers
-        document.addEventListener('keypress', myKeyboard, false);
-        document.addEventListener('mousedown', myMouseDown, false);
-        document.addEventListener('mouseup', myMouseUp, false);
-        document.addEventListener('mousemove', myMouseMove, false);
-
-        // Mouse
-        mousepos = vec2.fromValues(0., 0.);
-        mousedown = false;
-
+        // Make canvas fill the window
+        canvasFullWindow(true);
         cameramatrix = mat4.create();
         mat4.rotate(cameramatrix, cameramatrix, Math.PI/180. * 5, [0., 1., 0.]);
         mat4.translate(cameramatrix, cameramatrix, [0., 0., -4.]);
@@ -73,7 +70,7 @@ class FpsSnow {
         pushMvMatrix(gl);
         var movescale = 0.01;
         mat4.translate(gl.mvMatrix, gl.mvMatrix,
-            [mousepos[0]*movescale, mousepos[1]*movescale, 0.]);
+            [this.mouse.pos[0]*movescale, this.mouse.pos[1]*movescale, 0.]);
 
         popMvMatrix(gl);
 
@@ -103,7 +100,7 @@ class FpsSnow {
         // Fly
         var speed = 1.;
 
-        if (mousedown) {
+        if (this.mouse.isDown) {
             var new_trans = mat4.create();
             mat4.translate(new_trans, new_trans, [0., 0., speed*elapsedtime]);
 
@@ -115,8 +112,8 @@ class FpsSnow {
         var turn = mat4.create();
 
         mat4.rotate(turn, turn,
-            turnfactor * Math.sqrt(mousepos[0] * mousepos[0] + mousepos[1] * mousepos[1]),
-            [-mousepos[1], mousepos[0], 0.]
+            turnfactor * Math.sqrt(this.mouse.pos[0] * this.mouse.pos[0] + this.mouse.pos[1] * this.mouse.pos[1]),
+            [-this.mouse.pos[1], this.mouse.pos[0], 0.]
         );
 
         mat4.multiply(cameramatrix, turn, cameramatrix);

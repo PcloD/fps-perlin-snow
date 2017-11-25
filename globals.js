@@ -7,11 +7,6 @@ var savedcanvasid;      // ID of our canvas element
 var canvaswidth;        // Canvas width & height (pixels)
 var canvasheight;
 
-// Mouse
-var mousepos;           // vec2: mouse pos in pixels
-                        //       right, up from canvas center
-var mousedown;          // Boolean: is mouse button pressed?
-
 // Shaders
 var shaderprog1;        // Shader program object
 
