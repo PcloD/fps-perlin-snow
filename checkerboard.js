@@ -1,10 +1,9 @@
 // Classes Definitions
-class Ground {
-
+class Checkerboard {
     constructor() {
+        var BLACK = [.95, .95, .95];
+        var WHITE = [1., 1., 1.];
 
-        var BLACK = [0., 0., 0.];
-        var WHITE = [.9, 1., .8];
         this.colors = [BLACK, WHITE];
 
         this.numTiles = 60;

@@ -32,7 +32,7 @@ class FpsSnow {
         mat4.rotate(this.cameramatrix, this.cameramatrix, Math.PI/180. * 5, [0., 1., 0.]);
         mat4.translate(this.cameramatrix, this.cameramatrix, [0., 0., -4.]);
 
-        this.ground = new Ground();
+        this.checkerboard = new Checkerboard();
 
         // GL States
         gl.enable(gl.DEPTH_TEST);
@@ -49,7 +49,7 @@ class FpsSnow {
         mat4.multiply(gl.mvMatrix, gl.mvMatrix, this.cameramatrix);
 
         // Place and draw object
-        this.ground.show();
+        this.checkerboard.show();
 
         gl.flush();
     }
