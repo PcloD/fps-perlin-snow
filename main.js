@@ -2,6 +2,9 @@
 // fps-snow.js
 // CS 381 Project
 
+// Global Variables
+var gl;                 // WebGL rendering context
+var fpsSnow;            // Program Logic Object
 
 // Getting shader code
 $(document).ready(() => {

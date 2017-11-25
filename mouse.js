@@ -1,20 +1,20 @@
 class Mouse {
-    constructor(canvasId) {
+    constructor(canvas) {
         // Mouse
         this.pos = vec2.fromValues(0., 0.);           // vec2: mouse pos in pixels
 
         this.isDown = false;          // Boolean: is mouse button pressed?
 
-        this.canvasId = canvasId;
+        this.canvas = canvas;
     }
 
     // saveMousePos
     // Given event object, save mouse position in global mousepos, in pixels
     // right, up from center of canvas.
     savePos(evt) {
-        const mouseposCanvas = getMousePos(getCanvas(this.canvasId), evt);
-        this.pos[0] = mouseposCanvas[0] - canvaswidth/2;
-        this.pos[1] = canvasheight/2 - mouseposCanvas[1];
+        const mouseposCanvas = this.canvas.getMousePos(evt);
+        this.pos[0] = mouseposCanvas[0] - this.canvas.width/2;
+        this.pos[1] = this.canvas.height/2 - mouseposCanvas[1];
     }
 
 
