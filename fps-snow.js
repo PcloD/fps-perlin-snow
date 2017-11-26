@@ -31,9 +31,15 @@ class FpsSnow {
         // Setup camera transformation
         this.camera = new Camera();
 
-        this.checkerboard = new Checkerboard();
+        const worldSize = 100.;
+        this.checkerboard = new Checkerboard(worldSize);
 
-        this._centerCameraOnCheckerboard();
+        const NUM_SNOWFLAKES = 1000;
+
+        this.snowflakes = [];
+        for (let _ = 0; _ < NUM_SNOWFLAKES; ++_) {
+            this.snowflakes.push(new Snowflake(worldSize));
+        }
 
         // GL States
         gl.enable(gl.DEPTH_TEST);
@@ -51,10 +57,15 @@ class FpsSnow {
         mat4.identity(gl.mvMatrix);
         mat4.multiply(gl.mvMatrix, gl.mvMatrix, this.camera.matrix);
 
-
+        pushMvMatrix(gl);
         mat4.rotate(gl.mvMatrix, gl.mvMatrix, Math.PI / 2., [1., 0., 0.]);
         // Place and draw object
         this.checkerboard.show();
+        popMvMatrix(gl);
+
+        for (const snowflake of this.snowflakes) {
+            snowflake.show();
+        }
 
         gl.flush();
     }
@@ -79,6 +90,10 @@ class FpsSnow {
     idle() {
         var elapsedtime = getElapsedTime(0.1);
 
+        for (const snowflake of this.snowflakes) {
+            snowflake.update();
+        }
+
         // Perspective rotation
         if (elapsedtime == 0.) {
             return;
@@ -99,11 +114,6 @@ class FpsSnow {
 
         this.mouse.savePrev();
         postRedisplay();
-    }
-
-    _centerCameraOnCheckerboard() {
-        const center = [-this.checkerboard.height() / 2., -2. ,-this.checkerboard.width() / 2. ];
-        this.camera.translate(center);
     }
 }
 

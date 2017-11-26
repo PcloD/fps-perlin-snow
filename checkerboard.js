@@ -1,30 +1,17 @@
 // Classes Definitions
 class Checkerboard {
-    constructor() {
+    constructor(size) {
         var BLACK = [.95, .95, .95];
         var WHITE = [1., 1., 1.];
 
         this.colors = [BLACK, WHITE];
 
-        this.size = 100.;
+        this.size = size;
     }
 
     show() {
         const color = this.colors[0];
-        drawSquare(gl, this.size, color[0], color[1], color[2], 1.);
-    }
-
-    size() {
-        console.log(this.size);
-        return this.size;
-    }
-
-    height() {
-        return this.size();
-    }
-
-    width() {
-        return this.size();
+        drawSquare(gl, this.size, ...color, 1.);
     }
 }
 

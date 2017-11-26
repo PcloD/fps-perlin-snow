@@ -1,6 +1,7 @@
 class Camera {
     constructor() {
         this.matrix = mat4.create();
+
         mat4.translate(this.matrix,
             this.matrix, [0., -2., 0.]);
 
@@ -58,5 +59,4 @@ class Camera {
 
         return this.vel;
     }
-
 }

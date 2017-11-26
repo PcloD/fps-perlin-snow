@@ -8,6 +8,8 @@ var fpsSnow;            // Program Logic Object
 
 // Getting shader code
 $(document).ready(() => {
+    noise.seed(Math.random());
+
     let canvas = "can1";
 
     let fragShader;
@@ -27,6 +29,7 @@ $(document).ready(() => {
     })
 
     $.when(vertGet, fragGet, noiseGet).done(() => {
+        vertexShader = insert(vertexShader , noiseCode, 'noise3D');
         fragShader = insert(fragShader, noiseCode, 'noise3D');
         fpsSnow = new FpsSnow(canvas, vertexShader, fragShader);
     });
