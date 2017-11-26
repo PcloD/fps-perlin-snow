@@ -5,78 +5,33 @@ precision mediump float;
 #endif
 
 varying vec4 paintcolor_var;
-varying vec3 surfpt_var;
-varying vec3 surfnorm_var;
+varying vec4 vertex_pos;
+varying vec4 world_position;
 
-// bpLight
-// Compute color based on Blinn-Phong Illumination Model.
-vec4 bpLight(
-    vec4 lightcolor,
-    vec4 lightpos4,  // Homogeneous form
-    vec4 paintcolor,
-    vec3 surfpt,
-    vec3 surfnorm)
-{
-    // ***** Scalar Lighting Parameters *****
 
-    float ambientfrac = 0.2;
-        // Ambient light color, as fraction of light color
-    float shininess = 50.;
-        // PHONG Model shininess exponent
-        // (Blinn-Phong needs 4 times larger)
 
-    // ***** Direction of Light Source (cam coords) *****
-    vec3 lightdir;
-    if (lightpos4.w == 0.)
-        lightdir = normalize(lightpos4.xyz);
-    else
-        lightdir = normalize(lightpos4.xyz/lightpos4.w - surfpt);
+vec4 linearFog(vec4 position,
+               vec4 vertexColor,
+               vec4 fogColor,
+               float fogStart,
+               float fogEnd) {
+    float dist = 0.;
 
-    // ***** Compute the Three Parts of Blinn-Phong Model *****
+    dist = length(position.xyz / position.w);
+    float fogAmount = (fogEnd - dist) / (fogEnd - fogStart);
 
-    // Ambient
-    vec4 ambientcolor = ambientfrac * lightcolor * paintcolor;
+    fogAmount = clamp(fogAmount, 0., 1.);
 
-    // Diffuse
-    // Lambert cosine (or 0 if this is negative)
-    float lambertcos = max(0., dot(surfnorm, lightdir));
-    vec4 diffusecolor = lambertcos * lightcolor * paintcolor;
-
-    // Specular
-    vec3 viewdir = normalize(-surfpt);
-    vec3 halfway = normalize(viewdir + lightdir);
-    float specularcoeff = pow(max(0., dot(surfnorm, halfway)),
-                              4.*shininess);
-        // Blinn-Phong needs shininiess 4 * [Phong shininess]
-    vec4 specularcolor = specularcoeff * lightcolor;
-
-    // ***** Combine the Three Parts *****
-
-    return clamp(ambientcolor + diffusecolor + specularcolor,
-                 0., 1.);
+    return mix(fogColor, vertexColor, fogAmount);
 }
 
 void main() {
-    // Surface normal
-    vec3 surfnorm = normalize(surfnorm_var);
+    vec4 fogColor = vec4(135. / 255., 206. / 255., 235. / 255., 1.);
 
-    // Light-source color & position/direction
-    vec4 lightcolor = vec4(1., 1., 1., 1.);  // White
-    vec4 lightpos4 =  vec4(.0, 0., 0., 1.);
-
-    if (!gl_FrontFacing) {
-        surfnorm = -surfnorm;
-    }
-
-    // Apply Blinn-Phong Illumination Model
-    vec4 litcolor = bpLight(
-        lightcolor,
-        lightpos4,
-        paintcolor_var,
-        surfpt_var,
-        surfnorm);
-
-    // Send color to framebuffer
-    gl_FragColor = vec4(litcolor.rgb, 1.0);
+    gl_FragColor = linearFog(
+             world_position,
+             paintcolor_var,
+             fogColor,
+             0., 50.);
 }
 
