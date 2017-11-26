@@ -17,7 +17,8 @@ class FpsSnow {
 
         // Keyboard event handlers
         this.keyboard = new Keyboard();
-        $(document).on('keypress', this.keyboard.handler.bind(this.keyboard));
+        $(document).on('keydown', this.keyboard.onPressed.bind(this.keyboard));
+        $(document).on('keyup', this.keyboard.onReleased.bind(this.keyboard));
 
         // Register callbacks with quoll.js
         registerDisplay(this.display.bind(this));
@@ -69,8 +70,8 @@ class FpsSnow {
             gl.pMatrix,
             Math.PI/180. * 60.,  // y field-of-view angle
             w/h,                 // Viewport aspect ratio
-            0.1, 20.
-        );           // Near & far distances
+            0.1, 50.             // Near & far distances
+        );
     }
 
     idle() {
@@ -85,20 +86,16 @@ class FpsSnow {
         var speed = 3.;
 
         // Perspective translation
-        if (this.mouse.isDown) {
-            this.camera.translate([0., 0., speed*elapsedtime]);
-        }
+        const cameraVel = this.camera.getVel(this.keyboard.isDown);
+        this.camera.translate(cameraVel);
 
+        const mouseVel = this.mouse.getVel(elapsedtime);
 
-        const vel = this.mouse.getVel(elapsedtime);
-        // const angle = Math.sqrt(vel[0] * vel[0] + vel[1] * vel[1]);
-        const angle = vel[0];
+        const angle = mouseVel[0];
         const axis = [0., 1., 0.];
-
         this.camera.rotate(angle, axis);
 
         this.mouse.savePrev();
-
         postRedisplay();
     }
 

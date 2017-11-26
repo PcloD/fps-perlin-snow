@@ -2,39 +2,34 @@
 
 class Keyboard {
     constructor() {
+        $(document).on('keydown')
+        this.isDown = {
+            w: false,
+            a: false,
+            s: false,
+            d: false
+        }
     }
 
-    handler(evt) {
-        var ch = keyFromEvent(evt);
+    onPressed(evt) {
+        let key = String.fromCharCode(evt.keyCode).toLowerCase();
+        this.setKeys(key, true);
+    }
 
-        // Note: Keys like [Esc] may be handled inconsistently between
-        // browsers. Alas! So we only deal with printable ASCII here.
-        switch (ch) {
-            case ' ':  // Space: toggle rotation
-                rotflag = !rotflag;
-                break;
-            case '1':  // '1'-'6': toggle faces
-                drawfaces[0] = !drawfaces[0];
-                break;
-            case '2':
-                drawfaces[1] = !drawfaces[1];
-                break;
-            case '3':
-                drawfaces[2] = !drawfaces[2];
-                break;
-            case '4':
-                drawfaces[3] = !drawfaces[3];
-                break;
-            case '5':
-                drawfaces[4] = !drawfaces[4];
-                break;
-            case '6':
-                drawfaces[5] = !drawfaces[5];
-                break;
-            default:
-                return;
-        }
+    onReleased(evt) {
+        let key = String.fromCharCode(evt.keyCode).toLowerCase();
+        this.setKeys(key, false);
+    }
 
-        postRedisplay();
+    setKeys(key, value) {
+        if (key === 'w')
+            this.isDown.w = value;
+        if (key === 'a')
+            this.isDown.a = value;
+
+        if (key === 's')
+            this.isDown.s = value;
+        if (key === 'd')
+            this.isDown.d = value;
     }
 }

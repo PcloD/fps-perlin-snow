@@ -2,9 +2,11 @@ class Camera {
     constructor() {
         this.matrix = mat4.create();
         mat4.translate(this.matrix,
-            this.matrix, [0., 0., -4.]);
+            this.matrix, [0., -2., 0.]);
 
-        this.angle = 0.;
+        this.vel = [0., 0., 0.];
+
+        this.speed = 0.1;
     }
 
     translate(direction) {
@@ -31,4 +33,30 @@ class Camera {
 
         mat4.multiply(this.matrix, turn, this.matrix);
     }
+
+    getVel(isDown) {
+        if (isDown.w) {
+            this.vel[2] = 1 * this.speed;
+        }
+        if (isDown.s) {
+            this.vel[2] = -1 * this.speed;
+        }
+
+        if (!isDown.w && !isDown.s) {
+            this.vel[2] = 0.;
+        }
+
+        if (isDown.d) {
+            this.vel[0] = -1 * this.speed;
+        }
+        if (isDown.a) {
+            this.vel[0] = 1 * this.speed;
+        }
+        if (!isDown.d && !isDown.a) {
+            this.vel[0] = 0.;
+        }
+
+        return this.vel;
+    }
+
 }

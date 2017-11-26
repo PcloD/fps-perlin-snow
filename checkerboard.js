@@ -6,8 +6,8 @@ class Checkerboard {
 
         this.colors = [BLACK, WHITE];
 
-        this.numTiles = 30;
-        this.tileSize = 1.;
+        this.numTiles = 20;
+        this.tileSize = 5.;
     }
 
     show() {
