@@ -12,6 +12,7 @@ $(document).ready(() => {
 
     let fragShader;
     let vertexShader;
+    let noiseCode;
 
     let vertGet = $.get('shaders/vertex.glsl', (vertex) => {
         vertexShader = vertex;
@@ -21,8 +22,21 @@ $(document).ready(() => {
         fragShader = frag;
     });
 
-    $.when(vertGet, fragGet).done(() => {
+    let noiseGet = $.get('assets/noise3D.glsl', (noise) => {
+        noiseCode = noise;
+    })
+
+    $.when(vertGet, fragGet, noiseGet).done(() => {
+        fragShader = insert(fragShader, noiseCode, 'noise3D');
         fpsSnow = new FpsSnow(canvas, vertexShader, fragShader);
     });
 });
+
+
+let insert = (src, insertCode, marker) => {
+    marker = '{% ' + marker +' %}';
+    const segments = src.split(marker);
+
+    return segments[0] + insertCode + segments[1];
+}
 

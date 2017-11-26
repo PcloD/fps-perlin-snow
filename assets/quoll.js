@@ -58,6 +58,7 @@
 // Note that, if a variable is not used in a shader, then it need not be
 // declared.
 
+var oldmsg = '';
 
 // errOut
 // Given string, attempts to print it as an error message.
@@ -65,8 +66,7 @@
 //   its content.
 // - If above fails, log message to window console.
 // - If above fail, display an alert with the message.
-function errOut(msg)
-{
+function errOut(msg) {
     var f = arguments.callee;  // Current function
     if (!f.inited)
     {
@@ -86,13 +86,18 @@ function errOut(msg)
 
     if ('console' in window &&
         'error' in window.console &&
-        typeof window.console.error == 'function')
-    {
-        window.console.error(fullmsg);
+        typeof window.console.error == 'function') {
+
+        if (oldmsg === '') {
+            oldmsg = fullmsg;
+            throw new Error(fullmsg);
+            return;
+        } else {
+            return
+        }
+
         return;
     }
-
-    alert(fullmsg);
 }
 
 
@@ -478,10 +483,7 @@ function drawSquare(ctx,
 {
     // Get attribute locations
     var attriblocs = getAttribLocs(ctx);
-    if (!attriblocs)
-    {
-        errOut(arguments.callee.name + ': ' +
-               'Could not get attribute locations');
+    if (!attriblocs) {
         return;
     }
 
@@ -642,8 +644,6 @@ function drawSphere(ctx,
     var attriblocs = getAttribLocs(ctx);
     if (!attriblocs)
     {
-        errOut(arguments.callee.name + ': ' +
-               'Could not get attribute locations');
         return;
     }
 
@@ -1729,8 +1729,6 @@ function primEnd(ctx)
     var attriblocs = getAttribLocs(ctx);
     if (!attriblocs)
     {
-        errOut(arguments.callee.name + ': ' +
-               'Could not get attribute locations');
         return;
     }
 

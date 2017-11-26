@@ -41,8 +41,10 @@ class FpsSnow {
 
     display() {
         gl.useProgram(this.mainShader);
-
-        gl.clearColor(135 / 255., 206 / 255., 235. / 255, 1.);
+        let r = 180;
+        let g = 235;
+        let b = 255;
+        gl.clearColor(r / 255., g / 255., b / 255, 1.);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         // Camera transformation
