@@ -17,10 +17,10 @@ class Snowflake {
         popMvMatrix(gl);
     }
 
-    update() {
+    update(time) {
         const scale = .001;
-        this.position[1] -= this.gravity;
-        const noiseVal = noise.simplex3(scale * this.position[0], scale *  this.position[1], scale *  this.position[2]);
+        this.position[1] -= this.gravity * time;
+        const noiseVal = noise.simplex3(scale * this.position[0], scale *  this.position[1], scale *  this.position[2]) * time;
         this.position[0] -= noiseVal;
         this.position[2] -= noiseVal;
 

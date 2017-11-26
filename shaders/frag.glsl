@@ -31,7 +31,7 @@ void main() {
     vec3 color = vec3(180., 235., 255.);
     vec4 fogColor = vec4(color.rgb / 255., 1.);
 
-    float scale = 5.;
+    float scale = 6.;
 
     vec3 lookup = vec3((vertex_pos.xyz / vertex_pos.w) * scale);
     float noiseVal = (snoise(vec3(lookup)) + 1.) / 2.;
@@ -44,6 +44,6 @@ void main() {
              world_position,
              paintcolor,
              fogColor,
-             0., 50.);
+             0., 40.);
 }
 

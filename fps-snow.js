@@ -34,7 +34,7 @@ class FpsSnow {
         const worldSize = 100.;
         this.checkerboard = new Checkerboard(worldSize);
 
-        const NUM_SNOWFLAKES = 1000;
+        const NUM_SNOWFLAKES = 500;
 
         this.snowflakes = [];
         for (let _ = 0; _ < NUM_SNOWFLAKES; ++_) {
@@ -91,7 +91,7 @@ class FpsSnow {
         var elapsedtime = getElapsedTime(0.1);
 
         for (const snowflake of this.snowflakes) {
-            snowflake.update();
+            snowflake.update(elapsedtime);
         }
 
         // Perspective rotation
