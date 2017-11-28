@@ -5,7 +5,7 @@ class Snowflake {
         this.size = .3;
         this.color = [1., 1., 1.];
 
-        this.gravity = .09;
+        this.gravity = 1.5;
     }
 
     show() {
