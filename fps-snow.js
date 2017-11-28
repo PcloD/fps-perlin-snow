@@ -91,7 +91,7 @@ class FpsSnow {
         var elapsedtime = getElapsedTime(0.1);
 
         for (const snowflake of this.snowflakes) {
-            snowflake.update(elapsedtime);
+            snowflake.update(elapsedtime, whereAmI(this.camera.matrix));
         }
 
         // Perspective rotation
