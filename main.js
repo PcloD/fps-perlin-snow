@@ -18,10 +18,6 @@ $(document).ready(() => {
     let gets = [...sfShader.loading(), ...grdShader.loading(), noiseGet];
     $.when(...gets).done(() => {
         grdShader.insert('noise3D', noiseCode, 'fragment');
-        sfShader.insert('noise3D', noiseCode, 'fragment');
-
-        grdShader.insert('noise3D', noiseCode, 'vertex');
-        sfShader.insert('noise3D', noiseCode, 'vertex');
 
         const snowflakes = [];
         for (let _ = 0; _ < NUM_SNOWFLAKES; ++_) {
