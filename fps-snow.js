@@ -1,13 +1,12 @@
 class FpsSnow {
-    constructor(canvasId, vertex, frag) {
-        this.canvas = new Canvas(canvasId)
+    constructor(canvas, ground, snowflakes) {
+        this.canvas = canvas;
+        this.ground = ground;
+        this.snowflakes = snowflakes;
 
         // Initialize quoll.js & WebGL
         gl = quollInit(this.canvas.id);
         if (!gl) return;  // Could not intialize; exit
-
-        // Shaders
-        this.mainShader = makeProgramObject(gl, vertex, frag);
 
         // Mouse event handlers
         this.mouse = new Mouse(this.canvas);
@@ -31,26 +30,16 @@ class FpsSnow {
         // Setup camera transformation
         this.camera = new Camera();
 
-        const worldSize = 100.;
-        this.checkerboard = new Checkerboard(worldSize);
-
-        const NUM_SNOWFLAKES = 500;
-
-        this.snowflakes = [];
-        for (let _ = 0; _ < NUM_SNOWFLAKES; ++_) {
-            this.snowflakes.push(new Snowflake(worldSize));
-        }
-
         // GL States
         gl.enable(gl.DEPTH_TEST);
     }
 
     display() {
-        gl.useProgram(this.mainShader);
-        let r = 180;
-        let g = 235;
-        let b = 255;
-        gl.clearColor(r / 255., g / 255., b / 255, 1.);
+        gl.useProgram(this.ground.shader.get());
+
+        const norm = (rgb) => [rgb[0] / 255., rgb[1] / 255., rgb[2] / 255.];
+
+        gl.clearColor(...norm([180., 235., 255.]), 1.);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         // Camera transformation
@@ -60,9 +49,10 @@ class FpsSnow {
         pushMvMatrix(gl);
         mat4.rotate(gl.mvMatrix, gl.mvMatrix, Math.PI / 2., [1., 0., 0.]);
         // Place and draw object
-        this.checkerboard.show();
+        this.ground.show();
         popMvMatrix(gl);
 
+        gl.useProgram(this.snowflakes[0].shader.get());
         for (const snowflake of this.snowflakes) {
             snowflake.show();
         }

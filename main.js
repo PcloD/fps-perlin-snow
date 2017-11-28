@@ -7,36 +7,34 @@
 $(document).ready(() => {
     noise.seed(Math.random());
 
-    let canvas = "can1";
+    let sfShader = new Shader('shaders/sf-vertex.glsl', 'shaders/sf-frag.glsl');
+    let grdShader = new Shader('shaders/grd-vertex.glsl', 'shaders/grd-frag.glsl');
 
-    let fragShader;
-    let vertexShader;
     let noiseCode;
-
-    let vertGet = $.get('shaders/vertex.glsl', (vertex) => {
-        vertexShader = vertex;
-    });
-
-    let fragGet = $.get('shaders/frag.glsl', (frag) => {
-        fragShader = frag;
-    });
-
     let noiseGet = $.get('assets/noise3D.glsl', (noise) => {
         noiseCode = noise;
-    })
+    });
 
-    $.when(vertGet, fragGet, noiseGet).done(() => {
-        vertexShader = insert(vertexShader , noiseCode, 'noise3D');
-        fragShader = insert(fragShader, noiseCode, 'noise3D');
-        fpsSnow = new FpsSnow(canvas, vertexShader, fragShader);
+    let gets = [...sfShader.loading(), ...grdShader.loading(), noiseGet];
+    $.when(...gets).done(() => {
+        grdShader.insert('noise3D', noiseCode, 'fragment');
+        sfShader.insert('noise3D', noiseCode, 'fragment');
+
+        grdShader.insert('noise3D', noiseCode, 'vertex');
+        sfShader.insert('noise3D', noiseCode, 'vertex');
+
+        const snowflakes = [];
+        for (let _ = 0; _ < NUM_SNOWFLAKES; ++_) {
+            snowflakes.push(new Snowflake(sfShader));
+        }
+
+        fpsSnow = new FpsSnow(
+            new Canvas("canvas"),
+            new Ground(grdShader),
+            snowflakes
+        );
     });
 });
 
 
-let insert = (src, insertCode, marker) => {
-    marker = '{% ' + marker +' %}';
-    const segments = src.split(marker);
-
-    return segments[0] + insertCode + segments[1];
-}
 

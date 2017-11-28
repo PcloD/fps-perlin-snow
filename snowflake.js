@@ -1,10 +1,11 @@
 class Snowflake {
-    constructor(worldSize) {
-        this.worldSize = worldSize;
+    constructor(shader) {
         this.reset();
         this.size = .2;
         this.color = [1., 1., 1.];
         this.gravity = 1.5;
+
+        this.shader = shader;
     }
 
     show() {
@@ -44,9 +45,9 @@ class Snowflake {
 
     reset() {
         this.position = [
-            Math.random() * this.worldSize - this.worldSize / 2.,
+            Math.random() * WORLD_SIZE - WORLD_SIZE / 2.,
             Math.random() * 100 - 5.,
-            Math.random() * this.worldSize - this.worldSize / 2.
+            Math.random() * WORLD_SIZE - WORLD_SIZE / 2.
         ];
     }
 
