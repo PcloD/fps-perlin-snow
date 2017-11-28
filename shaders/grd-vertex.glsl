@@ -1,5 +1,4 @@
-
-// Vertex Shader #1
+// Ground Vertex Shader
 
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
@@ -12,8 +11,7 @@ varying vec4 vertex_pos;
 varying vec4 world_position;
 
 
-void main()
-{
+void main() {
     // Compute projected vertex position
     gl_Position = projectionMatrix * modelViewMatrix * vertex_attr;
 

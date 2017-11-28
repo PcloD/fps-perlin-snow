@@ -7,6 +7,7 @@ attribute vec4 vertex_attr;
 attribute vec4 color_attr;
 
 varying vec4 paintcolor_var;
+varying vec4 world_position;
 
 
 void main() {
@@ -15,5 +16,6 @@ void main() {
 
     // Send paint color and position to fragment shader
     paintcolor_var = color_attr;
+    world_position = modelViewMatrix * vertex_attr;
 }
 
