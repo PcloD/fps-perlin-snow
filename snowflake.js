@@ -5,7 +5,7 @@ class Snowflake {
         this.size = .3;
         this.color = [1., 1., 1.];
 
-        this.gravity = .09;
+        this.gravity = 1.;
     }
 
     show() {
@@ -13,8 +13,21 @@ class Snowflake {
         mat4.translate(gl.mvMatrix, gl.mvMatrix, this.position);
         mat4.rotate(gl.mvMatrix, gl.mvMatrix, Math.PI / 2., [0., 1., 0.]);
         mat4.rotate(gl.mvMatrix, gl.mvMatrix, Math.PI / 2., [0., 1., 0.]);
+        // Billboard
+        this.billboard();
         drawSquare(gl, this.size, ...this.color, 1.);
         popMvMatrix(gl);
+    }
+
+    billboard() {
+        var position = whereAmI(gl.mvMatrix);
+        // Disregard y because y=0 since it is cylindrical billboarding
+        var x = position[0];
+        var z = position[2];
+
+        var dotProduct = z / Math.sqrt(x*x + z*z);
+        var angle = Math.acos(dotProduct);
+        mat4.rotate(gl.mvMatrix, gl.mvMatrix, angle, [0., x, 0.])
     }
 
     update(time) {
