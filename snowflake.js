@@ -2,18 +2,19 @@ class Snowflake {
     constructor(worldSize) {
         this.worldSize = worldSize;
         this.reset();
-        this.size = .3;
+        this.size = .2;
         this.color = [1., 1., 1.];
         this.gravity = 1.5;
     }
 
     show() {
         pushMvMatrix(gl);
+
         mat4.translate(gl.mvMatrix, gl.mvMatrix, this.position);
         mat4.rotate(gl.mvMatrix, gl.mvMatrix, Math.PI / 2., [0., 1., 0.]);
         mat4.rotate(gl.mvMatrix, gl.mvMatrix, Math.PI / 2., [0., 1., 0.]);
-        // Billboard
-        //this.billboard();
+        this.billboard();
+
         drawSquare(gl, this.size, ...this.color, 1.);
         popMvMatrix(gl);
     }
@@ -26,7 +27,7 @@ class Snowflake {
 
         var dotProduct = z / Math.sqrt(x*x + z*z);
         var angle = Math.acos(dotProduct);
-        mat4.rotate(gl.mvMatrix, gl.mvMatrix, angle, [0., x, 0.])
+        mat4.rotate(gl.mvMatrix, gl.mvMatrix, angle, [0., x, 0.]);
     }
 
     update(time, cameraPos) {
