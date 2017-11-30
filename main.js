@@ -7,32 +7,29 @@
 $(document).ready(() => {
     noise.seed(Math.random());
 
-    let sfShader = new Shader('shaders/snowflake');
-    let grdShader = new Shader('shaders/ground');
+    let sfShader = new Shader('shaders/snowflake', [{
+        marker: 'linearFog',
+        path: 'shaders/linear-fog.glsl',
+        shader: 'fragment'
+    }]);
 
-    let noiseCode, fogCode, lightCode;
+    let grdShader = new Shader('shaders/ground', [{
+        marker: 'noise3D',
+        path: 'assets/noise3D.glsl',
+        shader: 'fragment'
+    }, {
+        marker: 'linearFog',
+        path: 'shaders/linear-fog.glsl',
+        shader: 'fragment'
+    }, {
+        marker: 'bpLight',
+        path: 'shaders/bplight.glsl',
+        shader: 'fragment'
+    }]);
 
-    let noiseGet = $.get('assets/noise3D.glsl', (noise) => {
-        noiseCode = noise;
-    });
-
-    let fogGet = $.get('shaders/linear-fog.glsl', (fog) => {
-        fogCode = fog;
-    });
-
-    let lightGet = $.get('shaders/bplight.glsl', (light) => {
-        lightCode = light;
-    });
-
-    let gets = [...sfShader.loading(), ...grdShader.loading(), noiseGet, fogGet, lightGet];
+    let gets = [...sfShader.loading(), ...grdShader.loading()];
 
     $.when(...gets).done(() => {
-        grdShader.insert('noise3D', noiseCode, 'fragment');
-        grdShader.insert('linearFog', fogCode, 'fragment');
-        grdShader.insert('bpLight', lightCode, 'fragment');
-
-        sfShader.insert('linearFog', fogCode, 'fragment');
-
         const snowflakes = [];
         for (let _ = 0; _ < NUM_SNOWFLAKES; ++_) {
             snowflakes.push(new Snowflake(sfShader));

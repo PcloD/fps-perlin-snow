@@ -1,14 +1,10 @@
 "use strict"
 
 class Shader {
-    constructor(basePath) {
+    constructor(basePath, dependencies=[]) {
         const vertexPath = `${basePath}/vertex.glsl`;
         const fragmentPath = `${basePath}/frag.glsl`;
         const varyingPath = `${basePath}/varying.glsl`;
-
-        this.vertex = '';
-        this.fragment = '';
-        this.varying = '';
 
         this.shaderProg = null;
 
@@ -23,6 +19,17 @@ class Shader {
         this.varyingGet = $.get(varyingPath, (varying) => {
             this.varying = varying;
         });
+
+        this.depGets = [];
+        for (const dep of dependencies) {
+            const {marker, path, shader} = dep;
+
+            let get = $.get(path, (code) => {
+                this.insert(marker, code, shader);
+            });
+
+            this.depGets.push(get);
+        }
     }
 
     insert(marker, code, type) {
@@ -49,7 +56,7 @@ class Shader {
     }
 
     loading() {
-        return [this.fragGet, this.vertGet, this.varyingGet];
+        return [this.fragGet, this.vertGet, this.varyingGet, ...this.depGets];
     }
 }
 
