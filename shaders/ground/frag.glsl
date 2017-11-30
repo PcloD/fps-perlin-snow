@@ -4,17 +4,14 @@
 precision mediump float;
 #endif
 
-{% varying %}
-
-// for nosie3D
-// float snoise(vec3 v)
+// imports
+{% varyingParams %}
 {% noise3D %}
-
-// for linearFog
 {% linearFog %}
+{% sparkle %}
 
-// for bpLight
-{% bpLight %}
+
+const float PI = 3.1415926535897932384626433832795;
 
 // Returns values between 0->1
 float noise(vec3 lookup) {
@@ -40,10 +37,19 @@ float calcFNoiseVal(vec3 lookup) {
 }
 
 
-float calcFlakeOrientation(vec3 lookup) {
-    float scale = 6.;
+vec3 calcFlakeOrientation(vec3 lookup) {
+    float scale = 9.;
 
-    return snoise(vec3((lookup.xy) * scale, 1.));
+    vec3 scaledLookup = vec3((lookup.xy) * scale, 1.);
+    float z = abs(noise(scaledLookup));
+    float f = 1. - z * z;
+
+    vec3 translatedLookup = scaledLookup + 1387.;
+    float a = noise(translatedLookup) * PI;
+    float x = f * cos(a);
+    float y = f * sin(a);
+
+    return vec3(x, y, z);
 }
 
 
@@ -54,10 +60,10 @@ void main() {
 
     vec3 lookup = vertex_pos.xyz / vertex_pos.w;
 
-    float reflectionNoise = calcFlakeOrientation(lookup);
     float colorNoise = calcFNoiseVal(lookup);
 
-    vec3 surfnorm = normalize(vec3(reflectionNoise, 1., reflectionNoise));
+    vec3 surfnorm = normalize(calcFlakeOrientation(lookup));
+
     vec4 snowNoiseColor = vec4((snowColor * colorNoise).xyz, 1.);
 
     // Light-source color & position/direction
@@ -66,16 +72,16 @@ void main() {
     vec4 lightpos4 =  vec4(-1., 2., 5., 1.);
 
     // Apply Blinn-Phong Illumination Model
-    //vec4 litcolor = bpLight(
-    //lightcolor,
-    //lightpos4,
-    //snowColor,
-    //surfpt_var,
-    //surfnorm);
+    vec4 litcolor = sparkle(
+    lightcolor,
+    lightpos4,
+    snowNoiseColor,
+    surfpt_var,
+    surfnorm);
 
     vec4 colorWithFog = linearFog(
             world_position,
-            snowNoiseColor,
+            litcolor,
             fogColor,
             0., 40.);
 

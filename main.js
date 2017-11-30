@@ -22,20 +22,24 @@ $(document).ready(() => {
         path: 'shaders/linear-fog.glsl',
         shader: 'fragment'
     }, {
-        marker: 'bpLight',
-        path: 'shaders/bplight.glsl',
+        marker: 'sparkle',
+        path: 'shaders/sparkle.glsl',
         shader: 'fragment'
     }]);
 
     let gets = [...sfShader.loading(), ...grdShader.loading()];
 
     $.when(...gets).done(() => {
+        sfShader.make();
+        grdShader.make();
+
         const snowflakes = [];
         for (let _ = 0; _ < NUM_SNOWFLAKES; ++_) {
             snowflakes.push(new Snowflake(sfShader));
         }
 
-        console.log(grdShader.fragment)
+
+        console.log(grdShader.fragment);
 
         fpsSnow = new FpsSnow(
             new Canvas("canvas"),

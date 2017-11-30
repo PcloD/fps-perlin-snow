@@ -17,6 +17,7 @@ class Shader {
         });
 
         this.varyingGet = $.get(varyingPath, (varying) => {
+            console.log(varying)
             this.varying = varying;
         });
 
@@ -47,12 +48,15 @@ class Shader {
 
     get() {
         if (!this.prog) {
-            this.insert('varying', this.varying, 'vertex');
-            this.insert('varying', this.varying, 'fragment');
             this.prog = makeProgramObject(gl, this.vertex, this.fragment);
         }
 
         return this.prog;
+    }
+
+    make() {
+        this.insert('varyingParams', this.varying, 'vertex');
+        this.insert('varyingParams', this.varying, 'fragment');
     }
 
     loading() {

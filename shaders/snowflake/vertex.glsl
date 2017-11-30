@@ -6,7 +6,8 @@ uniform mat4 projectionMatrix;
 attribute vec4 vertex_attr;
 attribute vec4 color_attr;
 
-{% varying %}
+// imports
+{% varyingParams %}
 
 void main() {
     // Compute projected vertex position

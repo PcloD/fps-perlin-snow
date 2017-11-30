@@ -4,8 +4,8 @@
 precision mediump float;
 #endif
 
-{% varying %}
-
+// imports
+{% varyingParams %}
 {% linearFog %}
 
 void main() {
