@@ -38,14 +38,17 @@ float calcFNoiseVal(vec3 lookup) {
 
 
 vec3 calcFlakeOrientation(vec3 lookup) {
-    float scale = 9.;
+    float rngScale = 9.;
+
+    float scale = .5;
 
     vec3 scaledLookup = vec3((lookup.xy) * scale, 1.);
     float z = abs(noise(scaledLookup));
     float f = 1. - z * z;
+    f *= rngScale;
 
     vec3 translatedLookup = scaledLookup + 1387.;
-    float a = noise(translatedLookup) * PI;
+    float a = noise(translatedLookup) * PI * rngScale;
     float x = f * cos(a);
     float y = f * sin(a);
 
