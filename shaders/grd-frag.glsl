@@ -24,6 +24,7 @@ float noise(vec3 lookup) {
     return (snoise(lookup) + 1.) / 2.;
 }
 
+
 float calcFNoiseVal(vec3 lookup) {
     float currScale = .7;
 
@@ -52,7 +53,7 @@ float calcFlakeOrientation(vec3 lookup) {
 void main() {
     vec3 color = vec3(180., 235., 255.);
     vec4 fogColor = vec4(color.rgb / 255., 1.);
-    vec4 snowColor = vec4(1., 252./ 255., 247. / 255., 1.);
+    vec4 snowColor = vec4(1., 250./ 255., 243. / 255., 1.);
 
     vec3 lookup = vertex_pos.xyz / vertex_pos.w;
 
