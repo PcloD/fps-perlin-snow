@@ -7,6 +7,7 @@ precision mediump float;
 varying vec4 paintcolor_var;
 varying vec4 vertex_pos;
 varying vec4 world_position;
+varying vec3 surfpt_var;
 
 // for nosie3D
 // float snoise(vec3 v)
@@ -15,6 +16,9 @@ varying vec4 world_position;
 // for linearFog
 {% linearFog %}
 
+// for bpLight
+{% bpLight %}
+
 void main() {
     vec3 color = vec3(180., 235., 255.);
     vec4 fogColor = vec4(color.rgb / 255., 1.);
@@ -22,16 +26,31 @@ void main() {
     float scale = 6.;
 
     vec3 lookup = vec3((vertex_pos.xyz / vertex_pos.w) * scale);
-    float noiseVal = (snoise(vec3(lookup)) + 1.) / 2.;
 
-    noiseVal = (noiseVal / 10.) + .95;
+    float noiseVal = snoise(vec3(lookup));
 
-    vec4 paintcolor = vec4(noiseVal, noiseVal, noiseVal, 1.);
+    vec3 surfnorm = normalize(vec3(noiseVal, 1., noiseVal));
 
-    gl_FragColor = linearFog(
+    // Light-source color & position/direction
+    //vec4 lightcolor = vec4(255. / 255., 254. / 255., 226. / 255., 1. );  // White
+    vec4 lightcolor = vec4(.97, 1., 1., 1.);  // White
+    vec4 lightpos4 =  vec4(-1., 2., 5., 1.);
+
+    // Apply Blinn-Phong Illumination Model
+    vec4 litcolor = bpLight(
+        lightcolor,
+        lightpos4,
+        paintcolor_var,
+        surfpt_var,
+        surfnorm);
+
+    vec4 colorWithFog = linearFog(
             world_position,
-            paintcolor,
+            litcolor,
             fogColor,
             0., 40.);
+
+    // Send color to framebuffer
+    gl_FragColor = vec4(colorWithFog.rgb, 1.0);
 }
 

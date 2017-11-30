@@ -37,7 +37,7 @@ class FpsSnow {
     display() {
         gl.useProgram(this.ground.shader.get());
 
-        const norm = (rgb) => [rgb[0] / 255., rgb[1] / 255., rgb[2] / 255.];
+        const norm = rgb => [rgb[0] / 255., rgb[1] / 255., rgb[2] / 255.];
 
         gl.clearColor(...norm([180., 235., 255.]), 1.);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
