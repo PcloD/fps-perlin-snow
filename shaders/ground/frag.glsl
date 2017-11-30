@@ -22,7 +22,7 @@ float noise(vec3 lookup) {
 float calcFNoiseVal(vec3 lookup) {
     float currScale = .7;
 
-    const int ZOOM_LEVELS = 6;
+    const int ZOOM_LEVELS = 3;
     float total = 0.;
 
     for(int i = 1; i < ZOOM_LEVELS; ++i) {
