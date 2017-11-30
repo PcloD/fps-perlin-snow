@@ -1,9 +1,14 @@
 "use strict"
 
 class Shader {
-    constructor(vertexPath, fragmentPath) {
+    constructor(basePath) {
+        const vertexPath = `${basePath}/vertex.glsl`;
+        const fragmentPath = `${basePath}/frag.glsl`;
+        const varyingPath = `${basePath}/varying.glsl`;
+
         this.vertex = '';
         this.fragment = '';
+        this.varying = '';
 
         this.shaderProg = null;
 
@@ -13,6 +18,10 @@ class Shader {
 
         this.fragGet = $.get(fragmentPath, (frag) => {
             this.fragment = frag;
+        });
+
+        this.varyingGet = $.get(varyingPath, (varying) => {
+            this.varying = varying;
         });
     }
 
@@ -31,6 +40,8 @@ class Shader {
 
     get() {
         if (!this.prog) {
+            this.insert('varying', this.varying, 'vertex');
+            this.insert('varying', this.varying, 'fragment');
             this.prog = makeProgramObject(gl, this.vertex, this.fragment);
         }
 
@@ -38,7 +49,7 @@ class Shader {
     }
 
     loading() {
-        return [this.fragGet, this.vertGet];
+        return [this.fragGet, this.vertGet, this.varyingGet];
     }
 }
 

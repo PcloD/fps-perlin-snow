@@ -7,8 +7,8 @@
 $(document).ready(() => {
     noise.seed(Math.random());
 
-    let sfShader = new Shader('shaders/sf-vertex.glsl', 'shaders/sf-frag.glsl');
-    let grdShader = new Shader('shaders/grd-vertex.glsl', 'shaders/grd-frag.glsl');
+    let sfShader = new Shader('shaders/snowflake');
+    let grdShader = new Shader('shaders/ground');
 
     let noiseCode, fogCode, lightCode;
 
