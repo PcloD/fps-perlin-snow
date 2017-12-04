@@ -60,7 +60,8 @@ class Shader {
     }
 
     loading() {
-        return [this.fragGet, this.vertGet, this.varyingGet, ...this.depGets];
+        const gets = [this.fragGet, this.vertGet, this.varyingGet, ...this.depGets];
+        return gets;
     }
 }
 

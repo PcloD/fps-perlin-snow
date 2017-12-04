@@ -25,6 +25,10 @@ $(document).ready(() => {
         marker: 'sparkle',
         path: 'shaders/sparkle.glsl',
         shader: 'fragment'
+    }, {
+        marker: 'bpLight',
+        path: 'shaders/bpLight.glsl',
+        shader: 'fragment'
     }]);
 
     let gets = [...sfShader.loading(), ...grdShader.loading()];

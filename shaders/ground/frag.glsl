@@ -9,7 +9,7 @@ precision mediump float;
 {% noise3D %}
 {% linearFog %}
 {% sparkle %}
-
+{% bpLight %}
 
 const float PI = 3.1415926535897932384626433832795;
 
@@ -20,7 +20,7 @@ float noise(vec3 lookup) {
 
 
 float calcFNoiseVal(vec3 lookup) {
-    float currScale = .7;
+    float currScale = 1.4;
 
     const int ZOOM_LEVELS = 6;
     float total = 0.;
@@ -38,21 +38,20 @@ float calcFNoiseVal(vec3 lookup) {
 
 
 vec3 calcFlakeOrientation(vec3 lookup) {
-    float rngScale = 9.;
+    float rngScale = 4.;
 
-    float scale = .5;
+    float scale = 3.;
 
-    vec3 scaledLookup = vec3((lookup.xy) * scale, 1.);
-    float z = abs(noise(scaledLookup));
-    float f = 1. - z * z;
-    f *= rngScale;
+    vec3 scaledLookup = vec3((lookup.xyz) * scale);
+    float y = noise(scaledLookup);
+    float f = 1. - y * y;
 
     vec3 translatedLookup = scaledLookup + 1387.;
-    float a = noise(translatedLookup) * PI * rngScale;
+    float a = noise(translatedLookup * scale) * 2. * PI;
     float x = f * cos(a);
-    float y = f * sin(a);
+    float z = f * sin(a);
 
-    return vec3(x, y, z);
+    return normalize(vec3(x, y, z));
 }
 
 
@@ -72,7 +71,7 @@ void main() {
     // Light-source color & position/direction
     //vec4 lightcolor = vec4(255. / 255., 254. / 255., 226. / 255., 1. );  // White
     vec4 lightcolor = vec4(.97, 1., 1., 1.);  // White
-    vec4 lightpos4 =  vec4(-1., 2., 5., 1.);
+    vec4 lightpos4 =  vec4(200., 200., 200., 1.);
 
     // Apply Blinn-Phong Illumination Model
     vec4 litcolor = sparkle(

@@ -7,8 +7,8 @@ vec4 sparkle(
     vec3 surfpt,
     vec3 surfnorm) {
 
-    //vec4 final = ((vec4( surfnorm, 1. ) / 9.) + .9) * paintcolor;
-    vec4 final = vec4(surfnorm, 1.);
+
+    vec4 final = ((vec4(surfnorm, 1.) / 10.) + .9) * paintcolor;
 
     return final;
 }
