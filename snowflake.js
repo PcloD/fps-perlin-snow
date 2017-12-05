@@ -1,14 +1,14 @@
 class Snowflake {
     constructor(shader) {
         this.reset();
-        this.size = .17;
+        this.size = .2;
         this.color = [1., 1., 1.];
         this.gravity = .7;
 
         this.shader = shader;
     }
 
-    setTexture() {
+    static setTexture() {
         let texture = gl.createTexture();
 
         gl.activeTexture(gl.TEXTURE0);
@@ -25,14 +25,11 @@ class Snowflake {
         var imgType = gl.UNSIGNED_BYTE;
         var pixels = tempImg;
         gl.texImage2D(gl.TEXTURE_2D,
-                      level, internalFormat,
-                      width, height, border,
-                      imgFormat, imgType, pixels);
+            level, internalFormat,
+            width, height, border,
+            imgFormat, imgType, pixels);
         gl.generateMipmap(gl.TEXTURE_2D);
-        this.setImage();
-    }
 
-    setImage() {
         let image = new Image();
         image.onload = function() {
             var level = 0;
@@ -74,9 +71,10 @@ class Snowflake {
     update(time, cameraPos) {
         const scale = .01;
         this.position[1] -= this.gravity * time;
-        const noiseVal = noise.simplex3(scale * this.position[0], scale *  this.position[1], scale *  this.position[2]) * time;
-        this.position[0] -= noiseVal;
-        this.position[2] -= noiseVal;
+        const baseWind = .005;
+        const diff = Math.cos(this.position[1] * .5) * scale;
+        this.position[0] -= baseWind + diff;
+        this.position[2] -= baseWind + diff;
 
         if (this.position[1] < -2. * this.size || this.isOutOfRange(cameraPos)) {
             this.reset();
