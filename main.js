@@ -42,9 +42,6 @@ $(document).ready(() => {
             snowflakes.push(new Snowflake(sfShader));
         }
 
-
-        console.log(grdShader.fragment);
-
         fpsSnow = new FpsSnow(
             new Canvas("canvas"),
             new Ground(grdShader),

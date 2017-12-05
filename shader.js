@@ -17,16 +17,20 @@ class Shader {
         });
 
         this.varyingGet = $.get(varyingPath, (varying) => {
-            console.log(varying)
             this.varying = varying;
         });
 
         this.depGets = [];
+        this.depInserts = [];
         for (const dep of dependencies) {
             const {marker, path, shader} = dep;
 
-            let get = $.get(path, (code) => {
-                this.insert(marker, code, shader);
+            const get = $.get(path, code => {
+                this.depInserts.push({
+                    'marker': marker,
+                    'code': code,
+                    'shader': shader
+                });
             });
 
             this.depGets.push(get);
@@ -57,6 +61,12 @@ class Shader {
     make() {
         this.insert('varyingParams', this.varying, 'vertex');
         this.insert('varyingParams', this.varying, 'fragment');
+
+        console.log(this.depInserts);
+        for (const obj of this.depInserts) {
+            const {marker, shader, code} = obj;
+            this.insert(marker, code, shader);
+        }
     }
 
     loading() {
