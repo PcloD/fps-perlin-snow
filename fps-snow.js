@@ -38,6 +38,9 @@ class FpsSnow {
 
         // GL States
         gl.enable(gl.DEPTH_TEST);
+
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        gl.enable(gl.BLEND);
     }
 
     display() {

@@ -12,11 +12,10 @@ uniform sampler2D tex;
 
 void main() {
     // Texture mapping
-    vec4 texcolor = texture2D(tex, texcoord_var);
-    texcolor = vec4(texcolor.rgb, 1.);
+    vec4 texcolor = texture2D(tex, texcoord_var).rgba;
 
     vec3 fcolor = vec3(180., 235., 255.);
-    vec4 fogColor = vec4(fcolor.rgb / 255., 1.);
+    vec4 fogColor = vec4(fcolor.rgb / 255., texcolor.a);
 
     gl_FragColor = linearFog(
             world_position,
