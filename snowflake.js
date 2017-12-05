@@ -8,6 +8,46 @@ class Snowflake {
         this.shader = shader;
     }
 
+    setTexture() {
+        let texture = gl.createTexture();
+
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+
+        var tempImg = new Uint8Array([0, 128, 255, 255]);
+
+        var level = 0;
+        var internalFormat = gl.RGBA;
+        var width = 1;
+        var height = 1;
+        var border = 0;
+        var imgFormat = gl.RGBA;
+        var imgType = gl.UNSIGNED_BYTE;
+        var pixels = tempImg;
+        gl.texImage2D(gl.TEXTURE_2D,
+                      level, internalFormat,
+                      width, height, border,
+                      imgFormat, imgType, pixels);
+        gl.generateMipmap(gl.TEXTURE_2D);
+        this.setImage();
+    }
+
+    setImage() {
+        let image = new Image();
+        image.onload = function() {
+            var level = 0;
+            var internalFormat = gl.RGBA;
+            var imgFormat = gl.RGBA;
+            var imgType = gl.UNSIGNED_BYTE;
+            var pixels = image;
+            gl.texImage2D(gl.TEXTURE_2D,
+                          level, internalFormat,
+                          imgFormat, imgType, pixels);
+            gl.generateMipmap(gl.TEXTURE_2D);
+        };
+        image.src = 'assets/snowflake-icon.png';
+    }
+
     show() {
         pushMvMatrix(gl);
 

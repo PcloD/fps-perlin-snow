@@ -8,6 +8,12 @@ class FpsSnow {
         gl = quollInit(this.canvas.id);
         if (!gl) return;  // Could not intialize; exit
 
+        // Initialize snowflake textures
+        for (const snowflake of this.snowflakes)
+        {
+            snowflake.setTexture();
+        }
+
         // Mouse event handlers
         this.mouse = new Mouse(this.canvas);
         $(document).on('mousedown', this.mouse.onDown.bind(this.mouse));
