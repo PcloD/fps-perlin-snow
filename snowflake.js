@@ -1,9 +1,9 @@
 class Snowflake {
     constructor(shader) {
         this.reset();
-        this.size = .2;
+        this.size = .17;
         this.color = [1., 1., 1.];
-        this.gravity = .0;
+        this.gravity = .7;
 
         this.shader = shader;
     }
@@ -45,7 +45,7 @@ class Snowflake {
                           imgFormat, imgType, pixels);
             gl.generateMipmap(gl.TEXTURE_2D);
         };
-        image.src = 'assets/snowflake-icon.png';
+        image.src = 'assets/snowflake.png';
     }
 
     show() {
@@ -72,7 +72,7 @@ class Snowflake {
     }
 
     update(time, cameraPos) {
-        const scale = .001;
+        const scale = .01;
         this.position[1] -= this.gravity * time;
         const noiseVal = noise.simplex3(scale * this.position[0], scale *  this.position[1], scale *  this.position[2]) * time;
         this.position[0] -= noiseVal;
