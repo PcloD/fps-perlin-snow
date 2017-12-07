@@ -8,16 +8,16 @@ class FpsSnow {
 
         console.log(this.snowflakes);
         console.log(this.sun);
-        
+
         // Initialize quoll.js & WebGL
         gl = quollInit(this.canvas.id);
         if (!gl) return;  // Could not intialize; exit
 
         // Initialize snowflake and sun textures
-        for (const snowflake of this.snowflakes)
-        {
-            snowflake.setTexture();
-        }
+        //for (const snowflake of this.snowflakes)
+        //{
+      //      snowflake.setTexture();
+      //  }
         this.sun.setTexture();
         // Mouse event handlers
         this.mouse = new Mouse(this.canvas);
