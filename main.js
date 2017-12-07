@@ -5,8 +5,6 @@
 
 // Getting shader code
 $(document).ready(() => {
-    noise.seed(Math.random());
-
     let sfShader = new Shader('shaders/snowflake', [{
         marker: 'linearFog',
         path: 'shaders/linear-fog.glsl',

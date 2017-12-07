@@ -36,6 +36,10 @@ class FpsSnow {
     display() {
         gl.useProgram(this.ground.shader.get());
 
+        // send the camera position to the shader
+        let cameraPosLoc = gl.getUniformLocation(this.ground.shader.get(), 'cameraPos');
+        gl.uniform3f(cameraPosLoc, ...whereAmI(this.camera.matrix));
+
         const norm = rgb => [rgb[0] / 255., rgb[1] / 255., rgb[2] / 255.];
 
         gl.clearColor(...norm([180., 235., 255.]), 1.);
@@ -102,6 +106,8 @@ class FpsSnow {
         this.camera.rotate(angle, axis);
 
         this.mouse.savePrev();
+
+
         postRedisplay();
     }
 }

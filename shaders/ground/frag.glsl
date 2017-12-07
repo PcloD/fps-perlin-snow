@@ -40,7 +40,7 @@ float calcFNoiseVal(vec3 lookup) {
 vec3 calcFlakeOrientation(vec3 lookup) {
     float rngScale = 4.;
 
-    float scale = 3.;
+    float scale = 5.;
 
     vec3 scaledLookup = vec3((lookup.xyz) * scale);
     float y = noise(scaledLookup);
@@ -73,13 +73,15 @@ void main() {
     vec4 lightcolor = vec4(.97, 1., 1., 1.);  // White
     vec4 lightpos4 =  vec4(200., 200., 200., 1.);
 
+    vec4 camPos = vec4(0., 0., 0., 1.);
     // Apply Blinn-Phong Illumination Model
     vec4 litcolor = sparkle(
     lightcolor,
     lightpos4,
     snowNoiseColor,
     surfpt_var,
-    surfnorm);
+    surfnorm,
+    camPos);
 
     vec4 colorWithFog = linearFog(
             world_position,
