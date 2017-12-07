@@ -41,14 +41,12 @@ $(document).ready(() => {
         for (let _ = 0; _ < NUM_SNOWFLAKES; ++_) {
             snowflakes.push(new Snowflake(sfShader));
         }
-
+        let sun = new Sun();
         fpsSnow = new FpsSnow(
             new Canvas("canvas"),
             new Ground(grdShader),
-            snowflakes
+            snowflakes,
+            sun
         );
     });
 });
-
-
-
