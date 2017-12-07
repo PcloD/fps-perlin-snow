@@ -2,7 +2,9 @@
 
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
-uniform vec3 cameraPos;
+uniform vec4 fogColor;
+uniform vec4 snowColor;
+uniform vec4 darkSnowColor;
 
 attribute vec4 vertex_attr;
 attribute vec4 color_attr;
@@ -23,6 +25,8 @@ void main() {
     paintcolor_var = color_attr;
     vertex_pos = vertex_attr;
     world_position = modelViewMatrix * vertex_attr;
-    camera_pos_var = cameraPos;
+    fog_color_var = fogColor;
+    snow_color_var = snowColor;
+    dark_snow_color_var = darkSnowColor;
 }
 

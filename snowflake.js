@@ -57,6 +57,14 @@ class Snowflake {
         popMvMatrix(gl);
     }
 
+    setShaderProg() {
+        const prog = this.shader.get();
+        gl.useProgram(prog);
+
+        let fogColorLoc = gl.getUniformLocation(prog, 'fogColor');
+        gl.uniform4fv(fogColorLoc, FOG_COLOR);
+    }
+
     billboard() {
         var p = whereAmI(gl.mvMatrix);
         // Disregard y because y=0 since it is cylindrical billboarding

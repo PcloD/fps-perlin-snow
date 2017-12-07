@@ -2,6 +2,7 @@
 
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
+uniform vec4 fogColor;
 
 attribute vec4 texcoord_attr;
 attribute vec4 vertex_attr;
@@ -17,6 +18,8 @@ void main() {
     // Send paint color and position to fragment shader
     paintcolor_var = color_attr;
     world_position = modelViewMatrix * vertex_attr;
+
+    fog_color_var = fogColor;
 
     // Send texture coords to frag shader;
     vec3 texcoord = texcoord_attr.stp / texcoord_attr.q;

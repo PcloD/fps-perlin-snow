@@ -50,6 +50,7 @@ $(document).ready(() => {
         fpsSnow = new FpsSnow(
             new Canvas(canvasId),
             new Ground(grdShader),
+            new Camera(),
             snowflakes
         );
     });
