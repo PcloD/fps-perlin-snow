@@ -34,19 +34,28 @@ $(document).ready(() => {
     let gets = [...sfShader.loading(), ...grdShader.loading()];
 
     $.when(...gets).done(() => {
+        // Initialize quoll.js & WebGL
+        gl = quollInit("canvas");
+        if (!gl) return;  // Could not intialize; exit
+
         sfShader.make();
         grdShader.make();
+
+        Snowflake.setTexture();
 
         const snowflakes = [];
         for (let _ = 0; _ < NUM_SNOWFLAKES; ++_) {
             snowflakes.push(new Snowflake(sfShader));
         }
+
         let sun = new Sun();
+
+        const canvasId = "canvas";
         fpsSnow = new FpsSnow(
-            new Canvas("canvas"),
+            new Canvas(canvasId),
             new Ground(grdShader),
             snowflakes,
             sun
         );
+      });
     });
-});
