@@ -40,7 +40,7 @@ float calcFNoiseVal(vec3 lookup) {
 vec3 calcFlakeOrientation(vec3 lookup) {
     float rngScale = 4.;
 
-    float scale = 3.;
+    float scale = 5.;
 
     vec3 scaledLookup = vec3((lookup.xyz) * scale);
     float y = noise(scaledLookup);
@@ -56,8 +56,6 @@ vec3 calcFlakeOrientation(vec3 lookup) {
 
 
 void main() {
-    vec3 color = vec3(180., 235., 255.);
-    vec4 fogColor = vec4(color.rgb / 255., 1.);
     vec4 snowColor = vec4(1., 250./ 255., 243. / 255., 1.);
 
     vec3 lookup = vertex_pos.xyz / vertex_pos.w;
@@ -66,15 +64,16 @@ void main() {
 
     vec3 surfnorm = normalize(calcFlakeOrientation(lookup));
 
-    vec4 snowNoiseColor = vec4((snowColor * colorNoise).xyz, 1.);
+    vec4 snowNoiseColor = vec4(mix(snow_color_var, dark_snow_color_var, colorNoise).xyz, 1.);
 
     // Light-source color & position/direction
     //vec4 lightcolor = vec4(255. / 255., 254. / 255., 226. / 255., 1. );  // White
     vec4 lightcolor = vec4(.97, 1., 1., 1.);  // White
     vec4 lightpos4 =  vec4(200., 200., 200., 1.);
 
+    vec4 camPos = vec4(0., 0., 0., 1.);
     // Apply Blinn-Phong Illumination Model
-    vec4 litcolor = sparkle(
+    vec4 litcolor = bpLight(
     lightcolor,
     lightpos4,
     snowNoiseColor,
@@ -84,7 +83,7 @@ void main() {
     vec4 colorWithFog = linearFog(
             world_position,
             litcolor,
-            fogColor,
+            fog_color_var,
             0., 40.);
 
     // Send color to framebuffer

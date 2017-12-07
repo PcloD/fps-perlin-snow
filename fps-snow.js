@@ -1,10 +1,14 @@
 class FpsSnow {
-    constructor(canvas, ground, snowflakes, yellowman) {
+    constructor(canvas, ground, camera, snowflakes, yellowman) {
         this.canvas = canvas;
         this.ground = ground;
+        this.camera = camera;
         this.snowflakes = snowflakes;
         this.sun = yellowman;
 
+        console.log(this.snowflakes);
+        console.log(this.sun);
+        
         // Initialize quoll.js & WebGL
         gl = quollInit(this.canvas.id);
         if (!gl) return;  // Could not intialize; exit
@@ -34,9 +38,6 @@ class FpsSnow {
         // Make canvas fill the window
         canvasFullWindow(true);
 
-        // Setup camera transformation
-        this.camera = new Camera();
-
         // GL States
         gl.enable(gl.DEPTH_TEST);
 
@@ -45,29 +46,28 @@ class FpsSnow {
     }
 
     display() {
-        gl.useProgram(this.ground.shader.get());
+        this.clear();
+        this.setToView(this.camera.matrix);
 
-        const norm = rgb => [rgb[0] / 255., rgb[1] / 255., rgb[2] / 255.];
-
-        gl.clearColor(...norm([180., 235., 255.]), 1.);
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-        // Camera transformation
-        mat4.identity(gl.mvMatrix);
-        mat4.multiply(gl.mvMatrix, gl.mvMatrix, this.camera.matrix);
-
-        pushMvMatrix(gl);
-        mat4.rotate(gl.mvMatrix, gl.mvMatrix, Math.PI / 2., [1., 0., 0.]);
-        // Place and draw object
         this.ground.show();
-        popMvMatrix(gl);
 
-        gl.useProgram(this.snowflakes[0].shader.get());
+        this.snowflakes[0].setShaderProg();
         for (const snowflake of this.snowflakes) {
             snowflake.show();
         }
         this.sun.show();
         gl.flush();
+    }
+
+    setToView(matrix) {
+        // Camera transformation
+        mat4.identity(gl.mvMatrix);
+        mat4.multiply(gl.mvMatrix, gl.mvMatrix, matrix);
+    }
+
+    clear() {
+        gl.clearColor(...FOG_COLOR);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     }
 
     reshape(w, h) {
@@ -113,6 +113,8 @@ class FpsSnow {
         this.camera.rotate(angle, axis);
 
         this.mouse.savePrev();
+
+
         postRedisplay();
     }
 }

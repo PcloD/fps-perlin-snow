@@ -6,7 +6,7 @@ class Shader {
         const fragmentPath = `${basePath}/frag.glsl`;
         const varyingPath = `${basePath}/varying.glsl`;
 
-        this.shaderProg = null;
+        this.program = null;
 
         this.vertGet = $.get(vertexPath, (vertex) => {
             this.vertex = vertex;
@@ -51,18 +51,17 @@ class Shader {
     }
 
     get() {
-        if (!this.prog) {
-            this.prog = makeProgramObject(gl, this.vertex, this.fragment);
+        if (!this.program) {
+            this.program = makeProgramObject(gl, this.vertex, this.fragment);
         }
 
-        return this.prog;
+        return this.program;
     }
 
     make() {
         this.insert('varyingParams', this.varying, 'vertex');
         this.insert('varyingParams', this.varying, 'fragment');
 
-        console.log(this.depInserts);
         for (const obj of this.depInserts) {
             const {marker, shader, code} = obj;
             this.insert(marker, code, shader);

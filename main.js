@@ -5,8 +5,6 @@
 
 // Getting shader code
 $(document).ready(() => {
-    noise.seed(Math.random());
-
     let sfShader = new Shader('shaders/snowflake', [{
         marker: 'linearFog',
         path: 'shaders/linear-fog.glsl',
@@ -54,6 +52,7 @@ $(document).ready(() => {
         fpsSnow = new FpsSnow(
             new Canvas(canvasId),
             new Ground(grdShader),
+            new Camera(),
             snowflakes,
             sun
         );

@@ -5,10 +5,9 @@ vec4 sparkle(
     vec4 lightpos4,  // Homogeneous form
     vec4 paintcolor,
     vec3 surfpt,
-    vec3 surfnorm) {
+    vec3 surfnorm,
+    vec4 camPos) {
 
 
-    vec4 final = ((vec4(surfnorm, 1.) / 10.) + .9) * paintcolor;
-
-    return final;
+    return paintcolor;
 }

@@ -7,7 +7,7 @@ class Camera {
 
         this.vel = [0., 0., 0.];
 
-        this.speed = 0.1;
+        this.speed = 0.2;
     }
 
     translate(direction) {
@@ -59,4 +59,5 @@ class Camera {
 
         return this.vel;
     }
+
 }
