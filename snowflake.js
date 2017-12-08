@@ -4,7 +4,6 @@ class Snowflake {
         this.size = .2;
         this.color = [1., 1., 1.];
         this.gravity = .7;
-
         this.shader = shader;
     }
 

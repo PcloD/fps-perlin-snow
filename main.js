@@ -46,16 +46,15 @@ $(document).ready(() => {
             snowflakes.push(new Snowflake(sfShader));
         }
 
+        let sun = new Sun();
+
         const canvasId = "canvas";
         fpsSnow = new FpsSnow(
             new Canvas(canvasId),
             new Ground(grdShader),
             new Camera(),
-            snowflakes
+            snowflakes,
+            sun
         );
+      });
     });
-});
-
-
-
-
