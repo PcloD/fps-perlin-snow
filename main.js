@@ -40,6 +40,7 @@ $(document).ready(() => {
         grdShader.make();
 
         Snowflake.setTexture();
+        Sun.setTexture();
 
         const snowflakes = [];
         for (let _ = 0; _ < NUM_SNOWFLAKES; ++_) {
@@ -53,8 +54,8 @@ $(document).ready(() => {
             new Canvas(canvasId),
             new Ground(grdShader),
             new Camera(),
-            snowflakes,
-            sun
+            new Sun(),
+            snowflakes
         );
       });
     });
