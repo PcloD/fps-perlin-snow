@@ -38,7 +38,7 @@ float calcFNoiseVal(vec3 lookup) {
 
 
 vec3 calcFlakeOrientation(vec3 lookup) {
-    float rngScale = 4.;
+    float rngScale = 5.;
 
     float scale = 5.;
 
@@ -64,11 +64,11 @@ void main() {
 
     vec3 surfnorm = normalize(calcFlakeOrientation(lookup));
 
-    vec4 snowNoiseColor = vec4(mix(snow_color_var, dark_snow_color_var, colorNoise).xyz, 1.);
+    vec4 snowNoiseColor = vec4(dark_snow_color_var * colorNoise);
 
     // Light-source color & position/direction
     //vec4 lightcolor = vec4(255. / 255., 254. / 255., 226. / 255., 1. );  // White
-    vec4 lightcolor = vec4(.97, 1., 1., 1.);  // White
+    vec4 lightcolor = snow_color_var;  // White
     vec4 lightpos4 =  vec4(200., 200., 200., 1.);
 
     vec4 camPos = vec4(0., 0., 0., 1.);

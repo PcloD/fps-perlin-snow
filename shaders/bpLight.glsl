@@ -8,9 +8,9 @@ vec4 bpLight(
     vec3 surfnorm) {
     // ***** Scalar Lighting Parameters *****
 
-    float ambientfrac = 0.2;
+    float ambientfrac = 0.9;
         // Ambient light color, as fraction of light color
-    float shininess = 50.;
+    float shininess = 100.;
         // Phong Model shininess exponent
 
     // ***** Direction of Light Source (cam coords) *****
