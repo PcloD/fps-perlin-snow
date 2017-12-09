@@ -67,6 +67,7 @@ class NightSun {
 
   setShaderProg(){
     const prog = this.shader.get();
+
     gl.useProgram(prog);
 
     let fogColorLoc=gl.getUniformLocation(prog, 'fogColor');

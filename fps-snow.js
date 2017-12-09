@@ -13,7 +13,6 @@ class FpsSnow {
         gl = quollInit(this.canvas.id);
         if (!gl) return;  // Could not intialize; exit
 
-        this.moon.setTexture();
         // Mouse event handlers
         this.mouse = new Mouse(this.canvas);
         $(document).on('mousedown', this.mouse.onDown.bind(this.mouse));
@@ -50,6 +49,7 @@ class FpsSnow {
         for (const snowflake of this.snowflakes) {
             snowflake.show();
         }
+
         this.moon.setShaderProg();
         this.moon.show();
         gl.flush();

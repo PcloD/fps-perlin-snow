@@ -35,7 +35,7 @@ $(document).ready(() => {
         shader: 'fragment'
     }]);
 
-    let gets = [...sfShader.loading(), ...grdShader.loading()];
+    let gets = [...sfShader.loading(), ...grdShader.loading(), ...moonShader.loading()];
 
     $.when(...gets).done(() => {
         // Initialize quoll.js & WebGL
@@ -47,7 +47,7 @@ $(document).ready(() => {
         grdShader.make();
 
         Snowflake.setTexture();
-        Sun.setTexture();
+        NightSun.setTexture();
 
         const snowflakes = [];
         for (let _ = 0; _ < NUM_SNOWFLAKES; ++_) {
@@ -61,8 +61,8 @@ $(document).ready(() => {
             new Canvas(canvasId),
             new Ground(grdShader),
             new Camera(),
-            snowflakes,
-            moon
+            moon,
+            snowflakes
         );
       });
     });
