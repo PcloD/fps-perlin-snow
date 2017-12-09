@@ -46,9 +46,6 @@ $(document).ready(() => {
         moonShader.make();
         grdShader.make();
 
-        Snowflake.setTexture();
-        NightSun.setTexture();
-
         const snowflakes = [];
         for (let _ = 0; _ < NUM_SNOWFLAKES; ++_) {
             snowflakes.push(new Snowflake(sfShader));
