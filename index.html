@@ -17,12 +17,43 @@
 
 <head>
 <meta charset="utf-8">
+<style>
+canvas {
+  cursor: none;
+    z-index: 1;
+}
+
+.controls {
+  color: white;
+    position: fixed;
+    top: 2%;
+      left: 1%;
+      z-index: 2;
+}
+
+.title {
+  color: white;
+    position: fixed;
+      top: 2%;
+      right: 2%;
+        z-index: 2;
+}
+</style>
 </head>
 <body>
+<div class="controls">
+  - wasd to move
+  <br>
+  - mouse to look around
+</div>
+<div class="title">
+  <h1><i class="fa fa-snowflake-o" aria-hidden="true"></i> Fps Perlin Snow</h1>
+</div>
 <canvas id="canvas"></canvas>
 
 <script type="text/javascript" src="assets/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="assets/gl-matrix-min.js"></script>
+<link rel="stylesheet" href="assets/font-awesome.min.css"></script>
 <script type="text/javascript" src="assets/quoll.js"></script>
 
 <script src="globals.js" type="text/javascript"></script>

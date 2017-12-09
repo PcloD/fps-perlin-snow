@@ -21,6 +21,7 @@ void main() {
     vec4 pos = projectionMatrix * surfpt4;
     gl_Position = pos;
 
+
     // Send paint color and position to fragment shader
     paintcolor_var = color_attr;
     vertex_pos = vertex_attr;

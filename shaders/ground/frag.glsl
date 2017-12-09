@@ -3,7 +3,6 @@
 #ifdef GL_ES
 precision mediump float;
 #endif
-
 // imports
 {% varyingParams %}
 {% noise3D %}
@@ -19,32 +18,27 @@ float noise(vec3 lookup) {
 }
 
 
-float calcFNoiseVal(vec3 lookup) {
-    float currScale = 1.4;
-
+float calcFNoiseVal(vec3 lookup, float scale) {
     const int ZOOM_LEVELS = 3;
     float total = 0.;
 
     for(int i = 1; i < ZOOM_LEVELS; ++i) {
-        vec3 scaledLookup = vec3((lookup.xy) * currScale, 137.);
+        vec3 scaledLookup = vec3((lookup.xy) * scale, 137.);
 
         total += noise(scaledLookup) / pow(float(i), 1.5);
-        currScale *= 3.;
+        scale *= 3.;
         scaledLookup += 137.;
     }
 
-    return (total / 10.) + .95;
+    return total;
 }
 
 
-vec3 calcFlakeOrientation(vec3 lookup) {
-    float rngScale = 5.;
-
-    float scale = 5.;
-
+vec3 calcFlakeOrientation(vec3 lookup, float scale) {
     vec3 scaledLookup = vec3((lookup.xyz) * scale);
+
     float y = noise(scaledLookup);
-    float f = 1. - y * y;
+    float f = 1.- y * y;
 
     vec3 translatedLookup = scaledLookup + 1387.;
     float a = noise(translatedLookup * scale) * 2. * PI;
@@ -60,25 +54,30 @@ void main() {
 
     vec3 lookup = vertex_pos.xyz / vertex_pos.w;
 
-    float colorNoise = calcFNoiseVal(lookup);
+    float fNoiseScale = .5;
+    float colorNoise = calcFNoiseVal(lookup, fNoiseScale);
 
-    vec3 surfnorm = normalize(calcFlakeOrientation(lookup));
+    float specularScale = 15.;
+    vec3 sparkleNorm = normalize(calcFlakeOrientation(lookup, specularScale));
 
-    vec4 snowNoiseColor = vec4(dark_snow_color_var * colorNoise);
+    vec4 snowNoiseColor = mix(snow_color_var, dark_snow_color_var, 1. - colorNoise);
 
     // Light-source color & position/direction
     //vec4 lightcolor = vec4(255. / 255., 254. / 255., 226. / 255., 1. );  // White
-    vec4 lightcolor = snow_color_var;  // White
-    vec4 lightpos4 =  vec4(200., 200., 200., 1.);
+    vec4 lightcolor = fog_color_var;  // White
+    vec4 lightpos4 =  vec4(5000., -5000., 5000., 1.);
+
+    vec4 specularcolor = vec4(1., 1., 1., 1.);
 
     vec4 camPos = vec4(0., 0., 0., 1.);
     // Apply Blinn-Phong Illumination Model
-    vec4 litcolor = bpLight(
+    vec4 litcolor = bpLightSpecular(
     lightcolor,
+    specularcolor,
     lightpos4,
     snowNoiseColor,
     surfpt_var,
-    surfnorm);
+    sparkleNorm);
 
     vec4 colorWithFog = linearFog(
             world_position,
