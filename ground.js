@@ -8,8 +8,6 @@ class Ground {
     }
 
     show() {
-        this.setShaderProg();
-
         pushMvMatrix(gl);
         mat4.rotate(gl.mvMatrix, gl.mvMatrix, Math.PI / 2., [1., 0., 0.]);
         // Place and draw object
