@@ -19,7 +19,6 @@ class Ground {
 
     setShaderProg() {
         const prog = this.shader.get();
-        console.log(prog);
         gl.useProgram(prog);
 
         let fogColorLoc = gl.getUniformLocation(prog, 'fogColor');

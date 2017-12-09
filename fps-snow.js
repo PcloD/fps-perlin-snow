@@ -1,5 +1,5 @@
 class FpsSnow {
-    constructor(canvas, ground, camera, snowflakes, yellowman) {
+    constructor(canvas, ground, camera, yellowman, snowflakes) {
         this.canvas = canvas;
         this.ground = ground;
         this.camera = camera;
@@ -13,11 +13,6 @@ class FpsSnow {
         gl = quollInit(this.canvas.id);
         if (!gl) return;  // Could not intialize; exit
 
-        // Initialize snowflake and moon textures
-        //for (const snowflake of this.snowflakes)
-        //{
-      //      snowflake.setTexture();
-      //  }
         this.moon.setTexture();
         // Mouse event handlers
         this.mouse = new Mouse(this.canvas);
