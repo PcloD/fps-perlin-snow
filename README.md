@@ -1,3 +1,7 @@
+- fps-perlin-snow
+- Group: William Horn, Hal Dimarchi, Frank Cline
+- Github: https://github.com/williamh890/fps-snow
+
 This is an attempt to simulate snow using perline noise. Mouse to look around
 and wasd to move.
 
