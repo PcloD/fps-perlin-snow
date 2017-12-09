@@ -12,7 +12,7 @@ $(document).ready(() => {
     }]);
 
     let moonShader = new Shader('shaders/moon', [{
-      marker: 'linerFog',
+      marker: 'linearFog',
       path: 'shaders/linear-fog.glsl',
       shader: 'fragment'
     }]);
@@ -45,9 +45,6 @@ $(document).ready(() => {
         sfShader.make();
         moonShader.make();
         grdShader.make();
-
-        Snowflake.setTexture();
-        NightSun.setTexture();
 
         const snowflakes = [];
         for (let _ = 0; _ < NUM_SNOWFLAKES; ++_) {

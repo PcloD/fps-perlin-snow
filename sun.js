@@ -8,13 +8,11 @@ class NightSun {
     this.size = 10;
     this.color=[1., 0., .5];
     this.shader = shader;
+    this.self = this;
   }
 
-    static setTexture(){
-        let texture = gl.createTexture();
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-
+    makeTexture(){
+        gl.bindTexture(gl.TEXTURE_2D, this.self.texture);
         var tempImg = new Uint8Array([0, 128, 255, 255]);
 
         var level = 0;
@@ -30,21 +28,28 @@ class NightSun {
             width, height, border,
             imgFormat, imgType, pixels);
         gl.generateMipmap(gl.TEXTURE_2D);
-
+        this.self.texture_2D = gl.TEXTURE_2D;
         let image = new Image();
-        image.onload = function() {
+        image.onload = function(parent) {
             var level = 0;
             var internalFormat = gl.RGBA;
             var imgFormat = gl.RGBA;
             var imgType = gl.UNSIGNED_BYTE;
             var pixels = image;
-            gl.texImage2D(gl.TEXTURE_2D,
-                level, internalFormat,
-                imgFormat, imgType, pixels);
-            gl.generateMipmap(gl.TEXTURE_2D);
+            gl.texImage2D(parent.texture_2D,
+                          level, internalFormat,
+                          imgFormat, imgType, pixels);
+            gl.generateMipmap(parent.texture_2D);
         };
-        image.src ='assets/sun-icon.png';
+        image.src = 'assets/moon-icon.png';
+        this.self.image = image;
     }
+
+    setTexture(){
+        this.self.texture = gl.createTexture();
+        gl.activeTexture(gl.TEXTURE0);
+        this.self.makeTexture();
+      }
 
     show() {
         pushMvMatrix(gl);
@@ -67,8 +72,8 @@ class NightSun {
 
   setShaderProg(){
     const prog = this.shader.get();
-
     gl.useProgram(prog);
+    this.self.image.onload(this.self);
 
     let fogColorLoc=gl.getUniformLocation(prog, 'fogColor');
     gl.uniform4fv(fogColorLoc, FOG_COLOR);
@@ -77,7 +82,7 @@ class NightSun {
   location(){
     this.position = [
       0.,
-      20.,
+      15.,
       5.
     ];
   }
