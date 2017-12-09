@@ -49,7 +49,6 @@ class FpsSnow {
         for (const snowflake of this.snowflakes) {
             snowflake.show();
         }
-
         this.moon.setShaderProg();
         this.moon.show();
         gl.flush();

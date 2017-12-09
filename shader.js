@@ -73,4 +73,3 @@ class Shader {
         return gets;
     }
 }
-

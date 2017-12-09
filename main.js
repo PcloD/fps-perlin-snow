@@ -12,7 +12,7 @@ $(document).ready(() => {
     }]);
 
     let moonShader = new Shader('shaders/moon', [{
-      marker: 'linerFog',
+      marker: 'linearFog',
       path: 'shaders/linear-fog.glsl',
       shader: 'fragment'
     }]);
@@ -54,14 +54,12 @@ $(document).ready(() => {
             snowflakes.push(new Snowflake(sfShader));
         }
 
-        let moon = new NightSun(moonShader);
-
         const canvasId = "canvas";
         fpsSnow = new FpsSnow(
             new Canvas(canvasId),
             new Ground(grdShader),
             new Camera(),
-            moon,
+            new NightSun(moonShader),
             snowflakes
         );
       });
