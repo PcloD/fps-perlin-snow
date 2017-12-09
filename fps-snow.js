@@ -9,14 +9,11 @@ class FpsSnow {
         console.log(this.snowflakes);
         console.log(this.moon);
 
-        // Initialize quoll.js & WebGL
-        gl = quollInit(this.canvas.id);
-        if (!gl) return;  // Could not intialize; exit
-
         this.moon.setTexture();
-          for (let i = 0; i < NUM_SNOWFLAKES; ++i) {
-              this.snowflakes[i].setTexture();
-          }
+        for (let i = 0; i < NUM_SNOWFLAKES; ++i) {
+            this.snowflakes[i].setTexture();
+        }
+
         // Mouse event handlers
         this.mouse = new Mouse(this.canvas);
         $(document).on('mousedown', this.mouse.onDown.bind(this.mouse));
@@ -47,6 +44,7 @@ class FpsSnow {
         this.clear();
         this.setToView(this.camera.matrix);
 
+        this.ground.setShaderProg();
         this.ground.show();
 
         this.snowflakes[0].setShaderProg();
@@ -83,7 +81,7 @@ class FpsSnow {
             gl.pMatrix,
             Math.PI/180. * 60.,  // y field-of-view angle
             w/h,                 // Viewport aspect ratio
-            0.1, 50.             // Near & far distances
+            0.1, 500.             // Near & far distances
         );
     }
 
