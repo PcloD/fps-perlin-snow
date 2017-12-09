@@ -25,21 +25,21 @@ class Snowflake {
             width, height, border,
             imgFormat, imgType, pixels);
         gl.generateMipmap(gl.TEXTURE_2D);
-        this.texture_2D = gl.TEXTURE_2D;
-        let image = new Image();
-        image.onload = function(parent) {
+
+        this.image = new Image();
+        this.image.onload = () => {
             var level = 0;
             var internalFormat = gl.RGBA;
             var imgFormat = gl.RGBA;
             var imgType = gl.UNSIGNED_BYTE;
-            var pixels = image;
-            gl.texImage2D(parent.texture_2D,
+            var pixels = this.image;
+            gl.texImage2D(gl.TEXTURE_2D,
                           level, internalFormat,
                           imgFormat, imgType, pixels);
-            gl.generateMipmap(parent.texture_2D);
+            gl.generateMipmap(gl.TEXTURE_2D);
         };
-        image.src = 'assets/snowflake-small.png';
-        this.image = image;
+
+        this.image.src = 'assets/snowflake-small.png';
     }
 
     setTexture() {
