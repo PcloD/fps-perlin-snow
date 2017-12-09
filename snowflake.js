@@ -1,7 +1,7 @@
 class Snowflake {
     constructor(shader) {
         this.reset();
-        this.size = .2;
+        this.size = .1;
         this.color = [1., 1., 1.];
         this.gravity = .7;
         this.shader = shader;
@@ -41,7 +41,7 @@ class Snowflake {
                           imgFormat, imgType, pixels);
             gl.generateMipmap(gl.TEXTURE_2D);
         };
-        image.src = 'assets/snowflake.png';
+        image.src = 'assets/snowflake-small.png';
     }
 
     show() {

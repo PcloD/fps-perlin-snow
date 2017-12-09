@@ -39,8 +39,8 @@ $(document).ready(() => {
         sfShader.make();
         grdShader.make();
 
-        Snowflake.setTexture();
         Sun.setTexture();
+        Snowflake.setTexture();
 
         const snowflakes = [];
         for (let _ = 0; _ < NUM_SNOWFLAKES; ++_) {

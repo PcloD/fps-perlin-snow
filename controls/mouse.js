@@ -40,7 +40,7 @@ class Mouse {
     }
 
     getVel(time) {
-        let scale = 1.;
+        let scale = .6;
         return [ scale*(-this.prev[0] + this.pos[0]) / time, scale * (-this.prev[1] + this.pos[1]) / time]
     }
 }

@@ -26,6 +26,9 @@ class Ground {
 
         let snowColorLoc = gl.getUniformLocation(prog, 'snowColor');
         gl.uniform4fv(snowColorLoc, SNOW_COLOR);
+
+        let darkSnowColorLoc = gl.getUniformLocation(prog, 'darkSnowColor');
+        gl.uniform4fv(darkSnowColorLoc, DARK_SNOW_COLOR);
     }
 
 }

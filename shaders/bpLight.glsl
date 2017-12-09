@@ -1,14 +1,15 @@
 // bpLight
 // Compute color based on Blinn-Phong Illumination Model.
-vec4 bpLight(
+vec4 bpLightSpecular(
     vec4 lightcolor,
+    vec4 specularcolor,
     vec4 lightpos4,  // Homogeneous form
     vec4 paintcolor,
     vec3 surfpt,
-    vec3 surfnorm) {
+    vec3 specularnorm) {
     // ***** Scalar Lighting Parameters *****
 
-    float ambientfrac = 0.9;
+    float ambientfrac = 1.;
         // Ambient light color, as fraction of light color
     float shininess = 100.;
         // Phong Model shininess exponent
@@ -22,24 +23,21 @@ vec4 bpLight(
 
     // ***** Compute the Three Parts of Phong Model *****
 
+    vec4 color = mix(paintcolor, lightcolor, .48);
     // Ambient
-    vec4 ambientcolor = ambientfrac * lightcolor * paintcolor;
+    vec4 ambientcolor = ambientfrac * color;
 
-    // Diffuse
-    // Lambert cosine (or 0 if this is negative)
-    float lambertcos = max(0., dot(surfnorm, lightdir));
-    vec4 diffusecolor = lambertcos * lightcolor * paintcolor;
-
-    // Specular
-    vec3 viewdir = normalize(-surfpt);
-    vec3 reflectlightdir = normalize(reflect(-lightdir, surfnorm));
-    float specularcoeff = pow(max(0., dot(viewdir, reflectlightdir)),
-                              shininess);
-    vec4 specularcolor = specularcoeff * lightcolor;
+    vec4 specularcol;
+        // Specular
+        vec3 viewdir = normalize(-surfpt);
+        vec3 reflectlightdir = normalize(reflect(-lightdir, specularnorm));
+        float specularcoeff = pow(max(0., dot(viewdir, reflectlightdir)),
+                shininess);
+        specularcol = specularcoeff * specularcolor;
 
     // ***** Combine the Three Parts *****
 
-    return clamp(ambientcolor + diffusecolor + specularcolor,
-                 0., 1.);
+    return clamp(ambientcolor + specularcol,
+            0., 1.);
 
 }
