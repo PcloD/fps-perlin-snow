@@ -11,6 +11,12 @@ $(document).ready(() => {
         shader: 'fragment'
     }]);
 
+    let moonShader = new Shader('shaders/moon', [{
+      marker: 'linerFog',
+      path: 'shaders/linear-fog.glsl',
+      shader: 'fragment'
+    }]);
+
     let grdShader = new Shader('shaders/ground', [{
         marker: 'noise3D',
         path: 'assets/noise3D.glsl',
@@ -37,6 +43,7 @@ $(document).ready(() => {
         if (!gl) return;  // Could not intialize; exit
 
         sfShader.make();
+        moonShader.make();
         grdShader.make();
 
         Snowflake.setTexture();
@@ -46,7 +53,7 @@ $(document).ready(() => {
             snowflakes.push(new Snowflake(sfShader));
         }
 
-        let sun = new Sun();
+        let moon = new NightSun(moonShader);
 
         const canvasId = "canvas";
         fpsSnow = new FpsSnow(
@@ -54,7 +61,7 @@ $(document).ready(() => {
             new Ground(grdShader),
             new Camera(),
             snowflakes,
-            sun
+            moon
         );
       });
     });

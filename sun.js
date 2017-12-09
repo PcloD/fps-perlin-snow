@@ -1,8 +1,9 @@
-class Sun {
-  constructor(){
+class NightSun {
+  constructor(shader){
     this.location();
     this.size = 10;
     this.color=[1., 0., .5];
+    this.shader = shader;
   }
 
   setTexture(){
@@ -63,11 +64,19 @@ class Sun {
       mat4.rotate(gl.mvMatrix, gl.mvMatrix, angle, [0., x, 0.]);
   }
 
+  setShaderProg(){
+    const prog = this.shader.get();
+    gl.useProgram(prog);
+
+    let fogColorLoc=gl.getUniformLocation(prog, 'fogColor');
+    gl.uniform4fv(fogColorLoc, FOG_COLOR);
+  }
+
   location(){
     this.position = [
       0.,
-      95.,
-      WORLD_SIZE
+      20.,
+      5.
     ];
   }
 }

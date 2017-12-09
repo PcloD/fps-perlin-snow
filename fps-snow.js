@@ -4,21 +4,21 @@ class FpsSnow {
         this.ground = ground;
         this.camera = camera;
         this.snowflakes = snowflakes;
-        this.sun = yellowman;
+        this.moon = yellowman;
 
         console.log(this.snowflakes);
-        console.log(this.sun);
+        console.log(this.moon);
 
         // Initialize quoll.js & WebGL
         gl = quollInit(this.canvas.id);
         if (!gl) return;  // Could not intialize; exit
 
-        // Initialize snowflake and sun textures
+        // Initialize snowflake and moon textures
         //for (const snowflake of this.snowflakes)
         //{
       //      snowflake.setTexture();
       //  }
-        this.sun.setTexture();
+        this.moon.setTexture();
         // Mouse event handlers
         this.mouse = new Mouse(this.canvas);
         $(document).on('mousedown', this.mouse.onDown.bind(this.mouse));
@@ -55,7 +55,8 @@ class FpsSnow {
         for (const snowflake of this.snowflakes) {
             snowflake.show();
         }
-        this.sun.show();
+        this.moon.setShaderProg();
+        this.moon.show();
         gl.flush();
     }
 
