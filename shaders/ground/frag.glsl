@@ -60,7 +60,7 @@ void main() {
     float specularScale = 15.;
     vec3 sparkleNorm = normalize(calcFlakeOrientation(lookup, specularScale));
 
-    vec4 snowNoiseColor = mix(snow_color_var, dark_snow_color_var, 1. - colorNoise);
+    vec4 snowNoiseColor = mix(snow_color_var, dark_snow_color_var, colorNoise);
 
     // Light-source color & position/direction
     //vec4 lightcolor = vec4(255. / 255., 254. / 255., 226. / 255., 1. );  // White

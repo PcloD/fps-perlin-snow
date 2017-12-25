@@ -1,7 +1,7 @@
 class Snowflake {
     constructor(shader) {
         this.reset();
-        this.size = .1;
+        this.size = Math.random() * .5 + 0.05;
         this.color = [1., 1., 1.];
         this.gravity = .7;
         this.shader = shader;
@@ -84,6 +84,7 @@ class Snowflake {
         const scale = .01;
         this.position[1] -= this.gravity * time;
         const baseWind = .005;
+
         const diff = Math.cos(this.position[1] * .5) * scale;
         this.position[0] -= baseWind + diff;
         this.position[2] -= baseWind + diff;
