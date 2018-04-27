@@ -1,7 +1,7 @@
 // Classes Definitions
 class Ground {
     constructor(shader) {
-        this.texobj = loadTexture(gl, 'assets/moon-icon.png');
+        this.texobj = loadTexture(gl, './assets/snowflake-small.png');
 
         this.color = [1., 1., 1.];
         this.size = WORLD_SIZE;
@@ -31,12 +31,6 @@ class Ground {
 
         let darkSnowColorLoc = gl.getUniformLocation(prog, 'darkSnowColor');
         gl.uniform4fv(darkSnowColorLoc, DARK_SNOW_COLOR);
-
-        let loc = gl.getUniformLocation(prog, 'snow_tex');
-        if (loc != -1) {
-            console.log("can't find tex0 location...")
-            gl.uniform1i(loc, 0);  // Shader channel 0
-        }
     }
 
     setTexture(prog) {

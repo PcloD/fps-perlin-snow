@@ -5,51 +5,12 @@
 class NightSun {
     constructor(shader){
         this.location();
+
+        this.texobj = loadTexture(gl, 'assets/moon-icon.png');
+
         this.size = 25.;
         this.color=[1., 0., .5];
         this.shader = shader;
-    }
-
-    makeTexture() {
-        gl.bindTexture(gl.TEXTURE_2D, this.texture);
-        var tempImg = new Uint8Array([0, 128, 255, 255]);
-
-        var level = 0;
-        var internalFormat = gl.RGBA;
-        var width = 1;
-        var height = 1;
-        var border = 0;
-        var imgFormat = gl.RGBA;
-        var imgType = gl.UNSIGNED_BYTE;
-        var pixels = tempImg;
-        gl.texImage2D(gl.TEXTURE_2D,
-            level, internalFormat,
-            width, height, border,
-            imgFormat, imgType, pixels);
-        gl.generateMipmap(gl.TEXTURE_2D);
-
-        this.texture_2D = gl.TEXTURE_2D;
-
-        let image = new Image();
-        image.onload = function(parent) {
-            var level = 0;
-            var internalFormat = gl.RGBA;
-            var imgFormat = gl.RGBA;
-            var imgType = gl.UNSIGNED_BYTE;
-            var pixels = image;
-            gl.texImage2D(parent.texture_2D,
-                level, internalFormat,
-                imgFormat, imgType, pixels);
-            gl.generateMipmap(parent.texture_2D);
-        };
-        image.src = 'assets/moon-icon.png';
-        this.image = image;
-    }
-
-    setTexture(){
-        this.texture = gl.createTexture();
-        gl.activeTexture(gl.TEXTURE0);
-        this.makeTexture();
     }
 
     show() {
@@ -74,10 +35,18 @@ class NightSun {
     setShaderProg(){
         const prog = this.shader.get();
         gl.useProgram(prog);
-        this.image.onload(this);
 
+        this.setTexture(prog);
         let fogColorLoc = gl.getUniformLocation(prog, 'fogColor');
         gl.uniform4fv(fogColorLoc, FOG_COLOR);
+    }
+
+
+    setTexture(prog) {
+        let loc = gl.getUniformLocation(prog, "tex");
+        gl.uniform1i(loc, this.texobj.number);
+        gl.activeTexture(gl.TEXTURE0 + this.texobj.number);
+        gl.bindTexture(gl.TEXTURE_2D, this.texobj.texture);
     }
 
     location(){
