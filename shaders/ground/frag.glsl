@@ -98,13 +98,18 @@ void main() {
         viewVec,                           //vec3 viewVec,
         lightdir,                          //vec3 lightDir,
         vec3(0., -1., 1.),                  //vec3 normal,
-        world_position.xyz,                //vec3 world_pos,
+        vec3(vertex_pos.xyz),                //vec3 world_pos,
         snoise(world_position.xyz * 0.04)      //float noise
     );
 
+    //gl_FragColor = mix(
+        //vec4(colorWithFog.rgb, 1.0),
+        //snowNoiseColor,
+        //sparkle
+    //);
     gl_FragColor = mix(
-        vec4(colorWithFog.rgb, 1.0),
-        snowNoiseColor,
+        vec4(0., 0., 0., 1.),
+        vec4(1., 1., 1., 1.),
         sparkle
     );
 }
