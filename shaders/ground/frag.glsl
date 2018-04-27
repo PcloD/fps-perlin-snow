@@ -3,6 +3,14 @@
 #ifdef GL_ES
 precision mediump float;
 #endif
+
+uniform float param0;
+uniform float param1;
+uniform float param2;
+uniform float param3;
+uniform float param4;
+uniform float param5;
+
 // imports
 {% varyingParams %}
 {% noise3D %}
@@ -41,7 +49,7 @@ vec3 calcFlakeOrientation(vec3 lookup, float scale) {
     vec3 scaledLookup = vec3((lookup.xyz) * scale);
 
     float y = noise(scaledLookup);
-    float f = 1.- y * y;
+    float f = 1. - y * y;
 
     vec3 translatedLookup = scaledLookup + 1387.;
     float a = noise(translatedLookup * scale) * 2. * PI;
@@ -62,16 +70,16 @@ float getShopfSparkle() {
     float sparkle = shopf(
         viewVec,                           //vec3 viewVec,
         lightdir,                          //vec3 lightDir,
-        vec3(0., 0., 2.),                  //vec3 normal,
+        vec3(0., 0., 1.),                  //vec3 normal,
         vec3(vertex_pos.xyz),                //vec3 world_pos,
-        snoise(world_position.xyz * 0.06)      //float noise
+        snoise(world_position.xyz * param0)      //float noise
     );
 
     return sparkle;
 }
 
 float getFancySparkle() {
-    vec3 viewVec = normalize(surfpt_var);
+    vec3 viewVec = normalize(-surfpt_var);
 
     float sparkle = fancySparkle(
         .7, 10.0, //float sparkle_size, float sparkle_dens,
@@ -88,12 +96,12 @@ float getFancySparkle() {
 void main() {
     // Look up the texture and mix with background color
     vec4 texcolor = texture2D(snow_tex, texcoord_var * 8.);
-    vec4 snowNoiseColor = mix(texcolor, fog_color_var, .5);
+    vec4 snowColor = mix(texcolor, fog_color_var, .5);
 
     vec4 withSparkle = mix(
-        vec4(snowNoiseColor.rgb, 1.0),
+        vec4(snowColor.rgb, 1.0),
         vec4(1., 1., 1., 1.),
-        getFancySparkle()
+        getShopfSparkle()
     );
 
     vec4 colorWithFog = linearFog(

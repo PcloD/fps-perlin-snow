@@ -3,6 +3,8 @@
 var gl;                 // WebGL rendering context
 var fpsSnow;            // Program Logic Object
 
+const sliders = [];
+
 const NUM_SNOWFLAKES = 1;
 const WORLD_SIZE = 100.;
 const VIEW_DISTANCE = 50.0;

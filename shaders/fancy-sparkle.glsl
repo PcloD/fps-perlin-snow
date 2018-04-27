@@ -54,13 +54,13 @@ float shopf(
     float specBase = clamp(val, 0., 1.);
 
     // noise = Noise3D( pos * 0.04).r
-    vec3 fp = fract((0.7 * world_pos) + (9. * noise) + (0.2 * viewVec));
+    vec3 fp = fract((param1 * world_pos) + (param2 * 15. * noise) + (param3 * viewVec));
     fp *= (1. - fp);
 
-    float val2 =  1. - 9. * (fp.x + fp.y + fp.z);
+    float val2 =  1. - param4 * 15. * (fp.x + fp.y + fp.z);
     float glitter = clamp(val2, 0., 1.);
 
-    float sparkle = glitter * pow(specBase, 1.5);
+    float sparkle = glitter * pow(specBase, param5 * 3.);
 
     return sparkle;
 }

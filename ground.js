@@ -31,6 +31,12 @@ class Ground {
 
         let darkSnowColorLoc = gl.getUniformLocation(prog, 'darkSnowColor');
         gl.uniform4fv(darkSnowColorLoc, DARK_SNOW_COLOR);
+
+        for (const slider of sliders) {
+            const loc = gl.getUniformLocation(prog, slider.id);
+            const val = parseFloat(slider.value);
+            gl.uniform1f(loc, val);
+        }
     }
 
     setTexture(prog) {

@@ -5,6 +5,8 @@
 
 // Getting shader code
 $(document).ready(() => {
+    makeSliders(6);
+
     let sfShader = new Shader('shaders/snowflake', [{
         marker: 'linearFog',
         path: 'shaders/linear-fog.glsl',
@@ -63,3 +65,35 @@ $(document).ready(() => {
         );
       });
     });
+
+const makeSliders = (num) => {
+    const el = document.getElementById("title");
+    let html = el.innerHTML;
+
+    for(let i = 0; i < num; ++i) {
+        html += getSliderHtml(`param${i}`, 0, 1);
+    }
+
+    el.innerHTML = html;
+
+    for(let i = 0; i < num; ++i) {
+        const slider = document.getElementById(`param${i}`);
+        sliders.push(slider);
+    }
+
+    console.log(sliders);
+}
+
+const getSliderHtml = (name, min, max) => {
+    return `
+        <input id="${name}"
+            type="range"
+            min="${min}"
+            max="${max}"
+            value="${max - max/2}"
+            step="any"
+            style="float:right;"
+            class="slider"
+        > <br>
+    `;
+}
