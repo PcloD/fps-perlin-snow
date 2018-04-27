@@ -53,42 +53,11 @@ vec3 calcFlakeOrientation(vec3 lookup, float scale) {
 
 
 void main() {
-    vec4 snowColor = vec4(1., 250./ 255., 243. / 255., 1.);
-
-    vec3 lookup = vertex_pos.xyz / vertex_pos.w;
-
-    float fNoiseScale = .5;
-    float colorNoise = calcFNoiseVal(lookup, fNoiseScale);
-
-    float specularScale = 15.;
-    vec3 sparkleNorm = normalize(calcFlakeOrientation(lookup, specularScale));
-
+    // Look up the texture and mix with background color
     vec4 texcolor = texture2D(snow_tex, texcoord_var * 8.);
-    vec4 snowNoiseColor = mix(texcolor, dark_snow_color_var, .8);
+    vec4 snowNoiseColor = mix(texcolor, fog_color_var, .5);
 
-    // Light-source color & position/direction
-    //vec4 lightcolor = vec4(255. / 255., 254. / 255., 226. / 255., 1. );  // White
-    vec4 lightcolor = fog_color_var;  // White
     vec4 lightpos4 =  vec4(5000., -5000., 5000., 1.);
-
-    vec4 specularcolor = vec4(1., 1., 1., 1.);
-
-    vec4 camPos = vec4(0., 0., 0., 1.);
-    // Apply Blinn-Phong Illumination Model
-    vec4 litcolor = bpLightSpecular(
-    lightcolor,
-    specularcolor,
-    lightpos4,
-    snowNoiseColor,
-    surfpt_var,
-    sparkleNorm);
-
-    vec4 colorWithFog = linearFog(
-        world_position,
-        litcolor,
-        fog_color_var,
-        0., 40.);
-
     vec3 lightdir = (lightpos4.w == 0.) ?
          normalize(lightpos4.xyz) :
          normalize(lightpos4.xyz/lightpos4.w - surfpt_var);
@@ -97,20 +66,24 @@ void main() {
     float sparkle = shopf(
         viewVec,                           //vec3 viewVec,
         lightdir,                          //vec3 lightDir,
-        vec3(0., -1., 1.),                  //vec3 normal,
+        vec3(0., 1., 1.),                  //vec3 normal,
         vec3(vertex_pos.xyz),                //vec3 world_pos,
         snoise(world_position.xyz * 0.04)      //float noise
     );
 
-    //gl_FragColor = mix(
-        //vec4(colorWithFog.rgb, 1.0),
-        //snowNoiseColor,
-        //sparkle
-    //);
-    gl_FragColor = mix(
-        vec4(0., 0., 0., 1.),
+    vec4 withSparkle = mix(
+        vec4(snowNoiseColor.rgb, 1.0),
         vec4(1., 1., 1., 1.),
         sparkle
     );
+
+    vec4 colorWithFog = linearFog(
+        world_position,
+        withSparkle,
+        fog_color_var,
+        0., 40.);
+
+
+    gl_FragColor = colorWithFog;
 }
 
