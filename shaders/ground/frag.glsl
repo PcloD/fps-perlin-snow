@@ -66,7 +66,7 @@ void main() {
     float sparkle = shopf(
         viewVec,                           //vec3 viewVec,
         lightdir,                          //vec3 lightDir,
-        vec3(0., 1., 1.),                  //vec3 normal,
+        vec3(0., 0., 2.),                  //vec3 normal,
         vec3(vertex_pos.xyz),                //vec3 world_pos,
         snoise(world_position.xyz * 0.04)      //float noise
     );
