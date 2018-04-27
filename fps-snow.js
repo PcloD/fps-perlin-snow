@@ -39,10 +39,10 @@ class FpsSnow {
         this.ground.setShaderProg();
         this.ground.show();
 
-        //this.snowflakes[0].setShaderProg();
-        //for (const snowflake of this.snowflakes) {
-            //snowflake.show();
-        //}
+        this.snowflakes[0].setShaderProg();
+        for (const snowflake of this.snowflakes) {
+            snowflake.show();
+        }
         this.moon.setShaderProg();
         this.moon.show();
         gl.flush();

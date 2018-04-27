@@ -41,7 +41,6 @@ class NightSun {
         gl.uniform4fv(fogColorLoc, FOG_COLOR);
     }
 
-
     setTexture(prog) {
         let loc = gl.getUniformLocation(prog, "tex");
         gl.uniform1i(loc, this.texobj.number);

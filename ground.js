@@ -1,7 +1,7 @@
 // Classes Definitions
 class Ground {
     constructor(shader) {
-        this.texobj = loadTexture(gl, './assets/snowflake-small.png');
+        this.texobj = loadTexture(gl, './assets/snow-2.png');
 
         this.color = [1., 1., 1.];
         this.size = WORLD_SIZE;

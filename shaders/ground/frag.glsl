@@ -63,7 +63,8 @@ void main() {
     float specularScale = 15.;
     vec3 sparkleNorm = normalize(calcFlakeOrientation(lookup, specularScale));
 
-    vec4 snowNoiseColor = mix(snow_color_var, dark_snow_color_var, colorNoise);
+    vec4 texcolor = texture2D(snow_tex, texcoord_var * 8.);
+    vec4 snowNoiseColor = mix(texcolor, dark_snow_color_var, .8);
 
     // Light-source color & position/direction
     //vec4 lightcolor = vec4(255. / 255., 254. / 255., 226. / 255., 1. );  // White
@@ -83,10 +84,10 @@ void main() {
     sparkleNorm);
 
     vec4 colorWithFog = linearFog(
-            world_position,
-            litcolor,
-            fog_color_var,
-            0., 40.);
+        world_position,
+        litcolor,
+        fog_color_var,
+        0., 40.);
 
     vec3 lightdir = (lightpos4.w == 0.) ?
          normalize(lightpos4.xyz) :
@@ -97,15 +98,13 @@ void main() {
         viewVec,                           //vec3 viewVec,
         lightdir,                          //vec3 lightDir,
         vec3(0., -1., 1.),                  //vec3 normal,
-        world_position.xyz,                //vec3 world_pos,
+        texcoord_var.xyz,                //vec3 world_pos,
         snoise(world_position.xyz * 0.04)      //float noise
     );
 
-    vec4 texcolor = texture2D(snow_tex, surfpt_var.xz);
-
     gl_FragColor = mix(
-        texcolor,//vec4(colorWithFog.rgb, 1.0),
-        texcolor,//vec4(1., 1., 1., 1.),
+        vec4(colorWithFog.rgb, 1.0),
+        snowNoiseColor,
         sparkle
     );
 }
