@@ -104,7 +104,7 @@ void main() {
     vec4 texcolor = texture2D(snow_tex, surfpt_var.xz);
 
     gl_FragColor = mix(
-        texcolor, //vec4(0., 0., 0., 1.),//vec4(colorWithFog.rgb, 1.0),
+        texcolor,//vec4(colorWithFog.rgb, 1.0),
         texcolor,//vec4(1., 1., 1., 1.),
         sparkle
     );

@@ -6,14 +6,6 @@ class FpsSnow {
         this.snowflakes = snowflakes;
         this.moon = yellowman;
 
-        console.log(this.snowflakes);
-        console.log(this.moon);
-
-        this.moon.setTexture();
-        for (let i = 0; i < NUM_SNOWFLAKES; ++i) {
-            this.snowflakes[i].setTexture();
-        }
-
         // Mouse event handlers
         this.mouse = new Mouse(this.canvas);
         $(document).on('mousedown', this.mouse.onDown.bind(this.mouse));
@@ -47,12 +39,6 @@ class FpsSnow {
         this.ground.setShaderProg();
         this.ground.show();
 
-        this.snowflakes[0].setShaderProg();
-        for (const snowflake of this.snowflakes) {
-            snowflake.show();
-        }
-        this.moon.setShaderProg();
-        this.moon.show();
         gl.flush();
     }
 
