@@ -59,7 +59,7 @@ float shopf(
     vec3 fp = fract((0.7 * world_pos) + (9. * noise) + (0.1 * viewVec));
     fp *= (1. - fp);
 
-    float val2 =  1. - 7. * (fp.x + fp.y + fp.z);
+    float val2 =  1. - 9. * (fp.x + fp.y + fp.z);
     float glitter = clamp(val2, 0., 1.);
 
     float sparkle = glitter * pow(specBase, 1.5);

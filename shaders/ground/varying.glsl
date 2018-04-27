@@ -5,3 +5,4 @@ varying vec4 world_position;
 varying vec4 fog_color_var;
 varying vec4 snow_color_var;
 varying vec4 dark_snow_color_var;
+

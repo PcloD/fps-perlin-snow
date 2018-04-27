@@ -12,6 +12,9 @@ precision mediump float;
 
 const float PI = 3.1415926535897932384626433832795;
 
+uniform sampler2D snow_tex;
+
+
 // Returns values between 0->1
 float noise(vec3 lookup) {
     return (snoise(lookup) + 1.) / 2.;
@@ -85,7 +88,6 @@ void main() {
             fog_color_var,
             0., 40.);
 
-
     vec3 lightdir = (lightpos4.w == 0.) ?
          normalize(lightpos4.xyz) :
          normalize(lightpos4.xyz/lightpos4.w - surfpt_var);
@@ -94,15 +96,13 @@ void main() {
     float sparkle = shopf(
         viewVec,                           //vec3 viewVec,
         lightdir,                          //vec3 lightDir,
-        vec3(0., 1., 0.),                  //vec3 normal,
+        vec3(0., -1., 1.),                  //vec3 normal,
         world_position.xyz,                //vec3 world_pos,
         snoise(world_position.xyz * 0.04)      //float noise
     );
 
-     //gl_FragColor = vec4(colorWithFog.rgb, 1.0);
-
     gl_FragColor = mix(
-        vec4(0., 0., 0., 1.),
+        vec4(0., 0., 0., 1.),//vec4(colorWithFog.rgb, 1.0),
         vec4(1., 1., 1., 1.),
         sparkle
     );
