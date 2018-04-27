@@ -37,17 +37,20 @@ function loadTexture(gl, url) {
        gl.generateMipmap(gl.TEXTURE_2D);
     } else {
        // No, it's not a power of 2. Turn of mips and set
-       // wrapping to clamp to edge
-       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        // wrapping to clamp to edge
+
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+
     }
   };
-  image.src = url;
+    image.src = url;
 
-  return texture;
+    return texture;
 }
 
 function isPowerOf2(value) {
-  return (value & (value - 1)) == 0;
+    return (value & (value - 1)) == 0;
 }

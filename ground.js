@@ -10,6 +10,8 @@ class Ground {
     }
 
     show() {
+        gl.bindTexture(gl.TEXTURE_2D, this.texture);
+
         pushMvMatrix(gl);
         mat4.rotate(gl.mvMatrix, gl.mvMatrix, Math.PI / 2., [1., 0., 0.]);
         // Place and draw object
@@ -18,8 +20,6 @@ class Ground {
     }
 
     setShaderProg() {
-        this.setTextureOptions();
-
         const prog = this.shader.get();
         gl.useProgram(prog);
 
@@ -32,17 +32,13 @@ class Ground {
         let darkSnowColorLoc = gl.getUniformLocation(prog, 'darkSnowColor');
         gl.uniform4fv(darkSnowColorLoc, DARK_SNOW_COLOR);
 
-        let loc = gl.getUniformLocation(prog, 'tex0');
+        let loc = gl.getUniformLocation(prog, 'snow_tex');
         if (loc != -1) {
             console.log("can't find tex0 location...")
             gl.uniform1i(loc, 0);  // Shader channel 0
         }
 
     }
-
-    setTextureOptions() {
-    }
-
 }
 
 

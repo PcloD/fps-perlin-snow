@@ -76,7 +76,7 @@ class NightSun {
         gl.useProgram(prog);
         this.image.onload(this);
 
-        let fogColorLoc=gl.getUniformLocation(prog, 'fogColor');
+        let fogColorLoc = gl.getUniformLocation(prog, 'fogColor');
         gl.uniform4fv(fogColorLoc, FOG_COLOR);
     }
 

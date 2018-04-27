@@ -53,9 +53,7 @@ float shopf(
     float val = dot(reflect(-normalize(viewVec), normal), lightDir);
     float specBase = clamp(val, 0., 1.);
 
-    // Perturb a grid pattern with some noise and with the view-vector
-    // to let the glittering change with view.
-    // Noise3D( pos * 0.04).r
+    // noise = Noise3D( pos * 0.04).r
     vec3 fp = fract((0.7 * world_pos) + (9. * noise) + (0.1 * viewVec));
     fp *= (1. - fp);
 
