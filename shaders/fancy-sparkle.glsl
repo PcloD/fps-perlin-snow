@@ -41,7 +41,7 @@ float fancySparkle(
     float thresh = 1.0 - sparkle_size;
 
     // Mulitply With Lighting
-    return (dist2 > thresh) ? 1.0 : 1.0;
+    return (dist2 > thresh) ? 0.0 : 1.0-dist2 / thresh;
 }
 
 float shopf(
@@ -54,7 +54,7 @@ float shopf(
     float specBase = clamp(val, 0., 1.);
 
     // noise = Noise3D( pos * 0.04).r
-    vec3 fp = fract((0.7 * world_pos) + (9. * noise) + (0.1 * viewVec));
+    vec3 fp = fract((0.7 * world_pos) + (9. * noise) + (0.2 * viewVec));
     fp *= (1. - fp);
 
     float val2 =  1. - 9. * (fp.x + fp.y + fp.z);
