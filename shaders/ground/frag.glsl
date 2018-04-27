@@ -85,12 +85,26 @@ void main() {
             fog_color_var,
             0., 40.);
 
+
+    vec3 lightdir = (lightpos4.w == 0.) ?
+         normalize(lightpos4.xyz) :
+         normalize(lightpos4.xyz/lightpos4.w - surfpt_var);
+
+    vec3 viewVec = normalize(-surfpt_var);
+    float sparkle = shopf(
+        viewVec,                           //vec3 viewVec,
+        lightdir,                          //vec3 lightDir,
+        vec3(0., 1., 0.),                  //vec3 normal,
+        world_position.xyz,                //vec3 world_pos,
+        snoise(world_position.xyz * 0.04)      //float noise
+    );
+
      //gl_FragColor = vec4(colorWithFog.rgb, 1.0);
 
     gl_FragColor = mix(
-        vec4(1., 0., 0., 1.),
-        vec4(0., 0., 1., 1.),
-        shopf(1., world_position.xyz)
+        vec4(0., 0., 0., 1.),
+        vec4(1., 1., 1., 1.),
+        sparkle
     );
 }
 
