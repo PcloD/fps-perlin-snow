@@ -7,7 +7,7 @@ precision mediump float;
 {% varyingParams %}
 {% noise3D %}
 {% linearFog %}
-{% sparkle %}
+{% fancySparkle %}
 {% bpLight %}
 
 const float PI = 3.1415926535897932384626433832795;
@@ -85,7 +85,12 @@ void main() {
             fog_color_var,
             0., 40.);
 
-    // Send color to framebuffer
-    gl_FragColor = vec4(colorWithFog.rgb, 1.0);
+     //gl_FragColor = vec4(colorWithFog.rgb, 1.0);
+
+    gl_FragColor = mix(
+        vec4(1., 0., 0., 1.),
+        vec4(0., 0., 1., 1.),
+        shopf(1., world_position.xyz)
+    );
 }
 

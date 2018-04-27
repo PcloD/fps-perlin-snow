@@ -26,8 +26,8 @@ $(document).ready(() => {
         path: 'shaders/linear-fog.glsl',
         shader: 'fragment'
     }, {
-        marker: 'sparkle',
-        path: 'shaders/sparkle.glsl',
+        marker: 'fancySparkle',
+        path: 'shaders/fancy-sparkle.glsl',
         shader: 'fragment'
     }, {
         marker: 'bpLight',
@@ -45,6 +45,8 @@ $(document).ready(() => {
         sfShader.make();
         moonShader.make();
         grdShader.make();
+
+        console.log(grdShader.fragment);
 
         const snowflakes = [];
         for (let _ = 0; _ < NUM_SNOWFLAKES; ++_) {
