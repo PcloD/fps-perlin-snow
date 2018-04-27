@@ -98,7 +98,7 @@ void main() {
         viewVec,                           //vec3 viewVec,
         lightdir,                          //vec3 lightDir,
         vec3(0., -1., 1.),                  //vec3 normal,
-        texcoord_var.xyz,                //vec3 world_pos,
+        world_position.xyz,                //vec3 world_pos,
         snoise(world_position.xyz * 0.04)      //float noise
     );
 
